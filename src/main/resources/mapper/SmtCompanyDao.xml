@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.SmtCompanyDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.SmtCompany" id="SmtCompanyMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="companyid" column="CompanyId" jdbcType="VARCHAR"/>
+        <result property="companyname" column="CompanyName" jdbcType="VARCHAR"/>
+        <result property="companytype" column="CompanyType" jdbcType="INTEGER"/>
+        <result property="customertype" column="CustomerType" jdbcType="VARCHAR"/>
+        <result property="juridical" column="Juridical" jdbcType="VARCHAR"/>
+        <result property="contactman" column="ContactMan" jdbcType="VARCHAR"/>
+        <result property="telno" column="TelNo" jdbcType="VARCHAR"/>
+        <result property="faxno" column="FaxNo" jdbcType="VARCHAR"/>
+        <result property="address" column="Address" jdbcType="VARCHAR"/>
+        <result property="introduction" column="Introduction" jdbcType="VARCHAR"/>
+        <result property="remark" column="Remark" jdbcType="VARCHAR"/>
+        <result property="edtbyuserid" column="EdtByUserId" jdbcType="VARCHAR"/>
+        <result property="edttime" column="EdtTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SmtCompanyMap">
+        select Id,
+               CompanyId,
+               CompanyName,
+               CompanyType,
+               CustomerType,
+               Juridical,
+               ContactMan,
+               TelNo,
+               FaxNo,
+               Address,
+               Introduction,
+               Remark,
+               EdtByUserId,
+               EdtTime
+        from hiquality.smt_company
+        where Id = #{id}
+    </select>
+
+    <!--条件查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*) from hiquality.smt_company
+        <where>
+            <if test="smtCompany.id != null and smtCompany.id != ''">
+                and Id REGEXP #{smtCompany.id}
+            </if>
+            <if test="smtCompany.companyid != null and smtCompany.companyid != ''">
+                and CompanyId REGEXP #{smtCompany.companyid}
+            </if>
+            <if test="smtCompany.companyname != null and smtCompany.companyname != ''">
+                and CompanyName REGEXP #{smtCompany.companyname}
+            </if>
+            <if test="smtCompany.companytype != null">
+                and CompanyType REGEXP #{smtCompany.companytype}
+            </if>
+            <if test="smtCompany.customertype != null and smtCompany.customertype != ''">
+                and CustomerType REGEXP #{smtCompany.customertype}
+            </if>
+            <if test="smtCompany.juridical != null and smtCompany.juridical != ''">
+                and Juridical REGEXP #{smtCompany.juridical}
+            </if>
+            <if test="smtCompany.contactman != null and smtCompany.contactman != ''">
+                and ContactMan REGEXP #{smtCompany.contactman}
+            </if>
+            <if test="smtCompany.telno != null and smtCompany.telno != ''">
+                and TelNo REGEXP #{smtCompany.telno}
+            </if>
+            <if test="smtCompany.faxno != null and smtCompany.faxno != ''">
+                and FaxNo REGEXP #{smtCompany.faxno}
+            </if>
+            <if test="smtCompany.address != null and smtCompany.address != ''">
+                and Address REGEXP #{smtCompany.address}
+            </if>
+            <if test="smtCompany.introduction != null and smtCompany.introduction != ''">
+                and Introduction REGEXP #{smtCompany.introduction}
+            </if>
+            <if test="smtCompany.remark != null and smtCompany.remark != ''">
+                and Remark REGEXP #{smtCompany.remark}
+            </if>
+            <if test="smtCompany.edtbyuserid != null and smtCompany.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{smtCompany.edtbyuserid}
+            </if>
+            <if test="smtCompany.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{smtCompany.edttime},'%y-%m-%d')
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--不等于条件查询记录总数-->
+    <select id="getCountByNotEqual" resultType="int">
+        select count(*) from hiquality.smt_company
+        <where>
+            <if test="id != null and id != ''">
+                and Id != #{id}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId != #{companyid}
+            </if>
+            <if test="companyname != null and companyname != ''">
+                and CompanyName != #{companyname}
+            </if>
+            <if test="companytype != null">
+                and CompanyType != #{companytype}
+            </if>
+            <if test="customertype != null and customertype != ''">
+                and CustomerType != #{customertype}
+            </if>
+            <if test="juridical != null and juridical != ''">
+                and Juridical != #{juridical}
+            </if>
+            <if test="contactman != null and contactman != ''">
+                and ContactMan != #{contactman}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo != #{telno}
+            </if>
+            <if test="faxno != null and faxno != ''">
+                and FaxNo != #{faxno}
+            </if>
+            <if test="address != null and address != ''">
+                and Address != #{address}
+            </if>
+            <if test="introduction != null and introduction != ''">
+                and Introduction != #{introduction}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark != #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId != #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime != #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SmtCompanyMap">
+        select
+        Id, CompanyId, CompanyName, CompanyType, CustomerType, Juridical, ContactMan, TelNo, FaxNo, Address,
+        Introduction, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_company
+        <where>
+            <if test="smtCompany.id != null and smtCompany.id != ''">
+                and Id REGEXP #{smtCompany.id}
+            </if>
+            <if test="smtCompany.companyid != null and smtCompany.companyid != ''">
+                and CompanyId REGEXP #{smtCompany.companyid}
+            </if>
+            <if test="smtCompany.companyname != null and smtCompany.companyname != ''">
+                and CompanyName REGEXP #{smtCompany.companyname}
+            </if>
+            <if test="smtCompany.companytype != null">
+                and CompanyType REGEXP #{smtCompany.companytype}
+            </if>
+            <if test="smtCompany.customertype != null and smtCompany.customertype != ''">
+                and CustomerType REGEXP #{smtCompany.customertype}
+            </if>
+            <if test="smtCompany.juridical != null and smtCompany.juridical != ''">
+                and Juridical REGEXP #{smtCompany.juridical}
+            </if>
+            <if test="smtCompany.contactman != null and smtCompany.contactman != ''">
+                and ContactMan REGEXP #{smtCompany.contactman}
+            </if>
+            <if test="smtCompany.telno != null and smtCompany.telno != ''">
+                and TelNo REGEXP #{smtCompany.telno}
+            </if>
+            <if test="smtCompany.faxno != null and smtCompany.faxno != ''">
+                and FaxNo REGEXP #{smtCompany.faxno}
+            </if>
+            <if test="smtCompany.address != null and smtCompany.address != ''">
+                and Address REGEXP #{smtCompany.address}
+            </if>
+            <if test="smtCompany.introduction != null and smtCompany.introduction != ''">
+                and Introduction REGEXP #{smtCompany.introduction}
+            </if>
+            <if test="smtCompany.remark != null and smtCompany.remark != ''">
+                and Remark REGEXP #{smtCompany.remark}
+            </if>
+            <if test="smtCompany.edtbyuserid != null and smtCompany.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{smtCompany.edtbyuserid}
+            </if>
+            <if test="smtCompany.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{smtCompany.edttime},'%y-%m-%d')
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--不等于查询指定行数据-->
+    <select id="queryNotEqualAllByLimit" resultMap="SmtCompanyMap">
+        select
+        Id, CompanyId, CompanyName, CompanyType, CustomerType, Juridical, ContactMan, TelNo, FaxNo, Address,
+        Introduction, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_company
+        <where>
+            <if test="smtCompany.id != null and smtCompany.id != ''">
+                and Id != #{smtCompany.id}
+            </if>
+            <if test="smtCompany.companyid != null and smtCompany.companyid != ''">
+                and CompanyId != #{smtCompany.companyid}
+            </if>
+            <if test="smtCompany.companyname != null and smtCompany.companyname != ''">
+                and CompanyName != #{smtCompany.companyname}
+            </if>
+            <if test="smtCompany.companytype != null">
+                and CompanyType != #{smtCompany.companytype}
+            </if>
+            <if test="smtCompany.customertype != null and smtCompany.customertype != ''">
+                and CustomerType != #{smtCompany.customertype}
+            </if>
+            <if test="smtCompany.juridical != null and smtCompany.juridical != ''">
+                and Juridical != #{smtCompany.juridical}
+            </if>
+            <if test="smtCompany.contactman != null and smtCompany.contactman != ''">
+                and ContactMan != #{smtCompany.contactman}
+            </if>
+            <if test="smtCompany.telno != null and smtCompany.telno != ''">
+                and TelNo != #{smtCompany.telno}
+            </if>
+            <if test="smtCompany.faxno != null and smtCompany.faxno != ''">
+                and FaxNo != #{smtCompany.faxno}
+            </if>
+            <if test="smtCompany.address != null and smtCompany.address != ''">
+                and Address != #{smtCompany.address}
+            </if>
+            <if test="smtCompany.introduction != null and smtCompany.introduction != ''">
+                and Introduction != #{smtCompany.introduction}
+            </if>
+            <if test="smtCompany.remark != null and smtCompany.remark != ''">
+                and Remark != #{smtCompany.remark}
+            </if>
+            <if test="smtCompany.edtbyuserid != null and smtCompany.edtbyuserid != ''">
+                and EdtByUserId != #{smtCompany.edtbyuserid}
+            </if>
+            <if test="smtCompany.edttime != null">
+                and EdtTime != #{smtCompany.edttime}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SmtCompanyMap">
+        select
+        Id, CompanyId, CompanyName, CompanyType, CustomerType, Juridical, ContactMan, TelNo, FaxNo, Address,
+        Introduction, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_company
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId = #{companyid}
+            </if>
+            <if test="companyname != null and companyname != ''">
+                and CompanyName = #{companyname}
+            </if>
+            <if test="companytype != null">
+                and CompanyType = #{companytype}
+            </if>
+            <if test="customertype != null and customertype != ''">
+                and CustomerType = #{customertype}
+            </if>
+            <if test="juridical != null and juridical != ''">
+                and Juridical = #{juridical}
+            </if>
+            <if test="contactman != null and contactman != ''">
+                and ContactMan = #{contactman}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo = #{telno}
+            </if>
+            <if test="faxno != null and faxno != ''">
+                and FaxNo = #{faxno}
+            </if>
+            <if test="address != null and address != ''">
+                and Address = #{address}
+            </if>
+            <if test="introduction != null and introduction != ''">
+                and Introduction = #{introduction}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark = #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime = #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="SmtCompanyMap">
+        select
+        Id, CompanyId, CompanyName, CompanyType, CustomerType, Juridical, ContactMan, TelNo, FaxNo, Address,
+        Introduction, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_company
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId like #{companyid}
+            </if>
+            <if test="companyname != null and companyname != ''">
+                and CompanyName like #{companyname}
+            </if>
+            <if test="companytype != null">
+                and CompanyType like #{companytype}
+            </if>
+            <if test="customertype != null and customertype != ''">
+                and CustomerType like #{customertype}
+            </if>
+            <if test="juridical != null and juridical != ''">
+                and Juridical like #{juridical}
+            </if>
+            <if test="contactman != null and contactman != ''">
+                and ContactMan like #{contactman}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo like #{telno}
+            </if>
+            <if test="faxno != null and faxno != ''">
+                and FaxNo like #{faxno}
+            </if>
+            <if test="address != null and address != ''">
+                and Address like #{address}
+            </if>
+            <if test="introduction != null and introduction != ''">
+                and Introduction like #{introduction}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark like #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId like #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime like #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="SmtCompanyMap">
+        select
+        Id, CompanyId, CompanyName, CompanyType, CustomerType, Juridical, ContactMan, TelNo, FaxNo, Address,
+        Introduction, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_company
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                or CompanyId = #{companyid}
+            </if>
+            <if test="companyname != null and companyname != ''">
+                or CompanyName = #{companyname}
+            </if>
+            <if test="companytype != null">
+                or CompanyType = #{companytype}
+            </if>
+            <if test="customertype != null and customertype != ''">
+                or CustomerType = #{customertype}
+            </if>
+            <if test="juridical != null and juridical != ''">
+                or Juridical = #{juridical}
+            </if>
+            <if test="contactman != null and contactman != ''">
+                or ContactMan = #{contactman}
+            </if>
+            <if test="telno != null and telno != ''">
+                or TelNo = #{telno}
+            </if>
+            <if test="faxno != null and faxno != ''">
+                or FaxNo = #{faxno}
+            </if>
+            <if test="address != null and address != ''">
+                or Address = #{address}
+            </if>
+            <if test="introduction != null and introduction != ''">
+                or Introduction = #{introduction}
+            </if>
+            <if test="remark != null and remark != ''">
+                or Remark = #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                or EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                or EdtTime = #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_company(Id, CompanyId, CompanyName, CompanyType, CustomerType, Juridical, ContactMan,
+                                          TelNo, FaxNo, Address, Introduction, Remark, EdtByUserId, EdtTime)
+        values (#{id}, #{companyid}, #{companyname}, #{companytype}, #{customertype}, #{juridical}, #{contactman},
+                #{telno}, #{faxno}, #{address}, #{introduction}, #{remark}, #{edtbyuserid}, #{edttime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_company(Id, CompanyId, CompanyName, CompanyType, CustomerType, Juridical, ContactMan,
+        TelNo, FaxNo, Address, Introduction, Remark, EdtByUserId, EdtTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.companyid}, #{entity.companyname}, #{entity.companytype}, #{entity.customertype},
+            #{entity.juridical}, #{entity.contactman}, #{entity.telno}, #{entity.faxno}, #{entity.address},
+            #{entity.introduction}, #{entity.remark}, #{entity.edtbyuserid}, #{entity.edttime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_company(Id, CompanyId, CompanyName, CompanyType, CustomerType, Juridical, ContactMan,
+        TelNo, FaxNo, Address, Introduction, Remark, EdtByUserId, EdtTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.companyid}, #{entity.companyname}, #{entity.companytype}, #{entity.customertype},
+            #{entity.juridical}, #{entity.contactman}, #{entity.telno}, #{entity.faxno}, #{entity.address},
+            #{entity.introduction}, #{entity.remark}, #{entity.edtbyuserid}, #{entity.edttime})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , CompanyId = values(CompanyId) , CompanyName = values(CompanyName) , CompanyType =
+        values(CompanyType) , CustomerType = values(CustomerType) , Juridical = values(Juridical) , ContactMan =
+        values(ContactMan) , TelNo = values(TelNo) , FaxNo = values(FaxNo) , Address = values(Address) , Introduction =
+        values(Introduction) , Remark = values(Remark) , EdtByUserId = values(EdtByUserId) , EdtTime = values(EdtTime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.smt_company
+        <set>
+            CompanyId = #{companyid},
+            CompanyName = #{companyname},
+            CompanyType = #{companytype},
+            CustomerType = #{customertype},
+            Juridical = #{juridical},
+            ContactMan = #{contactman},
+            TelNo = #{telno},
+            FaxNo = #{faxno},
+            Address = #{address},
+            Introduction = #{introduction},
+            Remark = #{remark},
+            EdtByUserId = #{edtbyuserid},
+            EdtTime = #{edttime},
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.smt_company
+        where Id = #{id}
+    </delete>
+
+</mapper>

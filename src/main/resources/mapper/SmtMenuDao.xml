@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.SmtMenuDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.SmtMenu" id="SmtMenuMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="parentid" column="ParentId" jdbcType="VARCHAR"/>
+        <result property="menusname" column="MenuSName" jdbcType="VARCHAR"/>
+        <result property="menuuname" column="MenuUName" jdbcType="VARCHAR"/>
+        <result property="href" column="Href" jdbcType="VARCHAR"/>
+        <result property="iconname" column="IconName" jdbcType="VARCHAR"/>
+        <result property="orderid" column="OrderId" jdbcType="INTEGER"/>
+        <result property="remark" column="Remark" jdbcType="VARCHAR"/>
+        <result property="edtbyuserid" column="EdtByUserId" jdbcType="VARCHAR"/>
+        <result property="edttime" column="EdtTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SmtMenuMap">
+        select Id,
+               ParentId,
+               MenuSName,
+               MenuUName,
+               Href,
+               IconName,
+               OrderId,
+               Remark,
+               EdtByUserId,
+               EdtTime
+        from hiquality.smt_menu
+        where Id = #{id}
+    </select>
+
+    <!--查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*)
+        from hiquality.smt_menu
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SmtMenuMap">
+        select Id,
+               ParentId,
+               MenuSName,
+               MenuUName,
+               Href,
+               IconName,
+               OrderId,
+               Remark,
+               EdtByUserId,
+               EdtTime
+        from hiquality.smt_menu
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SmtMenuMap">
+        select
+        Id, ParentId, MenuSName, MenuUName, Href, IconName, OrderId, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_menu
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="parentid != null and parentid != ''">
+                and ParentId = #{parentid}
+            </if>
+            <if test="menusname != null and menusname != ''">
+                and MenuSName = #{menusname}
+            </if>
+            <if test="menuuname != null and menuuname != ''">
+                and MenuUName = #{menuuname}
+            </if>
+            <if test="href != null and href != ''">
+                and Href = #{href}
+            </if>
+            <if test="iconname != null and iconname != ''">
+                and IconName = #{iconname}
+            </if>
+            <if test="orderid != null">
+                and OrderId = #{orderid}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark = #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime = #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="SmtMenuMap">
+        select
+        Id, ParentId, MenuSName, MenuUName, Href, IconName, OrderId, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_menu
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="parentid != null and parentid != ''">
+                and ParentId like #{parentid}
+            </if>
+            <if test="menusname != null and menusname != ''">
+                and MenuSName like #{menusname}
+            </if>
+            <if test="menuuname != null and menuuname != ''">
+                and MenuUName like #{menuuname}
+            </if>
+            <if test="href != null and href != ''">
+                and Href like #{href}
+            </if>
+            <if test="iconname != null and iconname != ''">
+                and IconName like #{iconname}
+            </if>
+            <if test="orderid != null">
+                and OrderId like #{orderid}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark like #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId like #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime like #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="SmtMenuMap">
+        select
+        Id, ParentId, MenuSName, MenuUName, Href, IconName, OrderId, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_menu
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="parentid != null and parentid != ''">
+                or ParentId = #{parentid}
+            </if>
+            <if test="menusname != null and menusname != ''">
+                or MenuSName = #{menusname}
+            </if>
+            <if test="menuuname != null and menuuname != ''">
+                or MenuUName = #{menuuname}
+            </if>
+            <if test="href != null and href != ''">
+                or Href = #{href}
+            </if>
+            <if test="iconname != null and iconname != ''">
+                or IconName = #{iconname}
+            </if>
+            <if test="orderid != null">
+                or OrderId = #{orderid}
+            </if>
+            <if test="remark != null and remark != ''">
+                or Remark = #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                or EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                or EdtTime = #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_menu(Id, ParentId, MenuSName, MenuUName, Href, IconName, OrderId, Remark, EdtByUserId,
+                                       EdtTime)
+        values (#{id}, #{parentid}, #{menusname}, #{menuuname}, #{href}, #{iconname}, #{orderid}, #{remark},
+                #{edtbyuserid}, #{edttime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_menu(Id, ParentId, MenuSName, MenuUName, Href, IconName, OrderId, Remark, EdtByUserId,
+        EdtTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.parentid}, #{entity.menusname}, #{entity.menuuname}, #{entity.href},
+            #{entity.iconname}, #{entity.orderid}, #{entity.remark}, #{entity.edtbyuserid}, #{entity.edttime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_menu(Id, ParentId, MenuSName, MenuUName, Href, IconName, OrderId, Remark, EdtByUserId,
+        EdtTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.parentid}, #{entity.menusname}, #{entity.menuuname}, #{entity.href},
+            #{entity.iconname}, #{entity.orderid}, #{entity.remark}, #{entity.edtbyuserid}, #{entity.edttime})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , ParentId = values(ParentId) , MenuSName = values(MenuSName) , MenuUName = values(MenuUName) ,
+        Href = values(Href) , IconName = values(IconName) , OrderId = values(OrderId) , Remark = values(Remark) ,
+        EdtByUserId = values(EdtByUserId) , EdtTime = values(EdtTime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.smt_menu
+        <set>
+            <if test="parentid != null and parentid != ''">
+                ParentId = #{parentid},
+            </if>
+            <if test="menusname != null and menusname != ''">
+                MenuSName = #{menusname},
+            </if>
+            <if test="menuuname != null and menuuname != ''">
+                MenuUName = #{menuuname},
+            </if>
+            <if test="href != null and href != ''">
+                Href = #{href},
+            </if>
+            <if test="iconname != null and iconname != ''">
+                IconName = #{iconname},
+            </if>
+            <if test="orderid != null">
+                OrderId = #{orderid},
+            </if>
+            <if test="remark != null and remark != ''">
+                Remark = #{remark},
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                EdtByUserId = #{edtbyuserid},
+            </if>
+            <if test="edttime != null">
+                EdtTime = #{edttime},
+            </if>
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.smt_menu
+        where Id = #{id}
+    </delete>
+
+</mapper>

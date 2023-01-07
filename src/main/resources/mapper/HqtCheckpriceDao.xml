@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.HqtCheckpriceDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.HqtCheckprice" id="HqtCheckpriceMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="companyid" column="CompanyId" jdbcType="VARCHAR"/>
+        <result property="projectname" column="ProjectName" jdbcType="VARCHAR"/>
+        <result property="standardid" column="StandardId" jdbcType="VARCHAR"/>
+        <result property="standardname" column="StandardName" jdbcType="VARCHAR"/>
+        <result property="needdevice" column="NeedDevice" jdbcType="VARCHAR"/>
+        <result property="sampleqty" column="SampleQty" jdbcType="VARCHAR"/>
+        <result property="checkperiod" column="CheckPeriod" jdbcType="VARCHAR"/>
+        <result property="priceprefix" column="PricePrefix" jdbcType="VARCHAR"/>
+        <result property="pricesuffix" column="PriceSuffix" jdbcType="VARCHAR"/>
+        <result property="publicprice" column="PublicPrice" jdbcType="NUMERIC"/>
+        <result property="discount" column="Discount" jdbcType="NUMERIC"/>
+        <result property="privateprice" column="PrivatePrice" jdbcType="NUMERIC"/>
+        <result property="custratio" column="CustRatio" jdbcType="NUMERIC"/>
+        <result property="edtbyuserid" column="EdtByUserId" jdbcType="VARCHAR"/>
+        <result property="edttime" column="EdtTime" jdbcType="TIMESTAMP"/>
+        <result property="creator" column="Creator" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="HqtCheckpriceMap">
+        select Id,
+               CompanyId,
+               ProjectName,
+               StandardId,
+               StandardName,
+               NeedDevice,
+               SampleQty,
+               CheckPeriod,
+               PricePrefix,
+               PriceSuffix,
+               PublicPrice,
+               Discount,
+               PrivatePrice,
+               CustRatio,
+               EdtByUserId,
+               EdtTime,
+               Creator
+        from hiquality.hqt_checkprice
+        where Id = #{id}
+    </select>
+
+    <!--条件查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*) from hiquality.hqt_checkprice
+        <where>
+            <if test="hqtCheckprice.id != null and hqtCheckprice.id != ''">
+                and Id REGEXP #{hqtCheckprice.id}
+            </if>
+            <if test="hqtCheckprice.companyid != null and hqtCheckprice.companyid != ''">
+                and CompanyId REGEXP #{hqtCheckprice.companyid}
+            </if>
+            <if test="hqtCheckprice.projectname != null and hqtCheckprice.projectname != ''">
+                and ProjectName REGEXP #{hqtCheckprice.projectname}
+            </if>
+            <if test="hqtCheckprice.standardid != null and hqtCheckprice.standardid != ''">
+                and StandardId REGEXP #{hqtCheckprice.standardid}
+            </if>
+            <if test="hqtCheckprice.standardname != null and hqtCheckprice.standardname != ''">
+                and StandardName REGEXP #{hqtCheckprice.standardname}
+            </if>
+            <if test="hqtCheckprice.needdevice != null and hqtCheckprice.needdevice != ''">
+                and NeedDevice REGEXP #{hqtCheckprice.needdevice}
+            </if>
+            <if test="hqtCheckprice.sampleqty != null and hqtCheckprice.sampleqty != ''">
+                and SampleQty REGEXP #{hqtCheckprice.sampleqty}
+            </if>
+            <if test="hqtCheckprice.checkperiod != null and hqtCheckprice.checkperiod != ''">
+                and CheckPeriod REGEXP #{hqtCheckprice.checkperiod}
+            </if>
+            <if test="hqtCheckprice.priceprefix != null and hqtCheckprice.priceprefix != ''">
+                and PricePrefix REGEXP #{hqtCheckprice.priceprefix}
+            </if>
+            <if test="hqtCheckprice.pricesuffix != null and hqtCheckprice.pricesuffix != ''">
+                and PriceSuffix REGEXP #{hqtCheckprice.pricesuffix}
+            </if>
+            <if test="hqtCheckprice.publicprice != null">
+                and PublicPrice REGEXP #{hqtCheckprice.publicprice}
+            </if>
+            <if test="hqtCheckprice.discount != null">
+                and Discount REGEXP #{hqtCheckprice.discount}
+            </if>
+            <if test="hqtCheckprice.privateprice != null">
+                and PrivatePrice REGEXP #{hqtCheckprice.privateprice}
+            </if>
+            <if test="hqtCheckprice.custratio != null">
+                and CustRatio REGEXP #{hqtCheckprice.custratio}
+            </if>
+            <if test="hqtCheckprice.edtbyuserid != null and hqtCheckprice.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{hqtCheckprice.edtbyuserid}
+            </if>
+            <if test="hqtCheckprice.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{hqtCheckprice.edttime},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckprice.creator != null and hqtCheckprice.creator != ''">
+                and Creator REGEXP #{hqtCheckprice.creator}
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--不等于条件查询记录总数-->
+    <select id="getCountByNotEqual" resultType="int">
+        select count(*) from hiquality.hqt_checkprice
+        <where>
+            <if test="id != null and id != ''">
+                and Id != #{id}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId != #{companyid}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and ProjectName != #{projectname}
+            </if>
+            <if test="standardid != null and standardid != ''">
+                and StandardId != #{standardid}
+            </if>
+            <if test="standardname != null and standardname != ''">
+                and StandardName != #{standardname}
+            </if>
+            <if test="needdevice != null and needdevice != ''">
+                and NeedDevice != #{needdevice}
+            </if>
+            <if test="sampleqty != null and sampleqty != ''">
+                and SampleQty != #{sampleqty}
+            </if>
+            <if test="checkperiod != null and checkperiod != ''">
+                and CheckPeriod != #{checkperiod}
+            </if>
+            <if test="priceprefix != null and priceprefix != ''">
+                and PricePrefix != #{priceprefix}
+            </if>
+            <if test="pricesuffix != null and pricesuffix != ''">
+                and PriceSuffix != #{pricesuffix}
+            </if>
+            <if test="publicprice != null">
+                and PublicPrice != #{publicprice}
+            </if>
+            <if test="discount != null">
+                and Discount != #{discount}
+            </if>
+            <if test="privateprice != null">
+                and PrivatePrice != #{privateprice}
+            </if>
+            <if test="custratio != null">
+                and CustRatio != #{custratio}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId != #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime != #{edttime}
+            </if>
+            <if test="creator != null and creator != ''">
+                and Creator != #{creator}
+            </if>
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="HqtCheckpriceMap">
+        select
+        Id, CompanyId, ProjectName, StandardId, StandardName, NeedDevice, SampleQty, CheckPeriod, PricePrefix,
+        PriceSuffix, PublicPrice, Discount, PrivatePrice, CustRatio, EdtByUserId, EdtTime, Creator
+        from hiquality.hqt_checkprice
+        <where>
+            <if test="hqtCheckprice.id != null and hqtCheckprice.id != ''">
+                and Id REGEXP #{hqtCheckprice.id}
+            </if>
+            <if test="hqtCheckprice.companyid != null and hqtCheckprice.companyid != ''">
+                and CompanyId REGEXP #{hqtCheckprice.companyid}
+            </if>
+            <if test="hqtCheckprice.projectname != null and hqtCheckprice.projectname != ''">
+                and ProjectName REGEXP #{hqtCheckprice.projectname}
+            </if>
+            <if test="hqtCheckprice.standardid != null and hqtCheckprice.standardid != ''">
+                and StandardId REGEXP #{hqtCheckprice.standardid}
+            </if>
+            <if test="hqtCheckprice.standardname != null and hqtCheckprice.standardname != ''">
+                and StandardName REGEXP #{hqtCheckprice.standardname}
+            </if>
+            <if test="hqtCheckprice.needdevice != null and hqtCheckprice.needdevice != ''">
+                and NeedDevice REGEXP #{hqtCheckprice.needdevice}
+            </if>
+            <if test="hqtCheckprice.sampleqty != null and hqtCheckprice.sampleqty != ''">
+                and SampleQty REGEXP #{hqtCheckprice.sampleqty}
+            </if>
+            <if test="hqtCheckprice.checkperiod != null and hqtCheckprice.checkperiod != ''">
+                and CheckPeriod REGEXP #{hqtCheckprice.checkperiod}
+            </if>
+            <if test="hqtCheckprice.priceprefix != null and hqtCheckprice.priceprefix != ''">
+                and PricePrefix REGEXP #{hqtCheckprice.priceprefix}
+            </if>
+            <if test="hqtCheckprice.pricesuffix != null and hqtCheckprice.pricesuffix != ''">
+                and PriceSuffix REGEXP #{hqtCheckprice.pricesuffix}
+            </if>
+            <if test="hqtCheckprice.publicprice != null">
+                and PublicPrice REGEXP #{hqtCheckprice.publicprice}
+            </if>
+            <if test="hqtCheckprice.discount != null">
+                and Discount REGEXP #{hqtCheckprice.discount}
+            </if>
+            <if test="hqtCheckprice.privateprice != null">
+                and PrivatePrice REGEXP #{hqtCheckprice.privateprice}
+            </if>
+            <if test="hqtCheckprice.custratio != null">
+                and CustRatio REGEXP #{hqtCheckprice.custratio}
+            </if>
+            <if test="hqtCheckprice.edtbyuserid != null and hqtCheckprice.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{hqtCheckprice.edtbyuserid}
+            </if>
+            <if test="hqtCheckprice.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{hqtCheckprice.edttime},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckprice.creator != null and hqtCheckprice.creator != ''">
+                and Creator REGEXP #{hqtCheckprice.creator}
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--不等于查询指定行数据-->
+    <select id="queryNotEqualAllByLimit" resultMap="HqtCheckpriceMap">
+        select
+        Id, CompanyId, ProjectName, StandardId, StandardName, NeedDevice, SampleQty, CheckPeriod, PricePrefix,
+        PriceSuffix, PublicPrice, Discount, PrivatePrice, CustRatio, EdtByUserId, EdtTime, Creator
+        from hiquality.hqt_checkprice
+        <where>
+            <if test="hqtCheckprice.id != null and hqtCheckprice.id != ''">
+                and Id != #{hqtCheckprice.id}
+            </if>
+            <if test="hqtCheckprice.companyid != null and hqtCheckprice.companyid != ''">
+                and CompanyId != #{hqtCheckprice.companyid}
+            </if>
+            <if test="hqtCheckprice.projectname != null and hqtCheckprice.projectname != ''">
+                and ProjectName != #{hqtCheckprice.projectname}
+            </if>
+            <if test="hqtCheckprice.standardid != null and hqtCheckprice.standardid != ''">
+                and StandardId != #{hqtCheckprice.standardid}
+            </if>
+            <if test="hqtCheckprice.standardname != null and hqtCheckprice.standardname != ''">
+                and StandardName != #{hqtCheckprice.standardname}
+            </if>
+            <if test="hqtCheckprice.needdevice != null and hqtCheckprice.needdevice != ''">
+                and NeedDevice != #{hqtCheckprice.needdevice}
+            </if>
+            <if test="hqtCheckprice.sampleqty != null and hqtCheckprice.sampleqty != ''">
+                and SampleQty != #{hqtCheckprice.sampleqty}
+            </if>
+            <if test="hqtCheckprice.checkperiod != null and hqtCheckprice.checkperiod != ''">
+                and CheckPeriod != #{hqtCheckprice.checkperiod}
+            </if>
+            <if test="hqtCheckprice.priceprefix != null and hqtCheckprice.priceprefix != ''">
+                and PricePrefix != #{hqtCheckprice.priceprefix}
+            </if>
+            <if test="hqtCheckprice.pricesuffix != null and hqtCheckprice.pricesuffix != ''">
+                and PriceSuffix != #{hqtCheckprice.pricesuffix}
+            </if>
+            <if test="hqtCheckprice.publicprice != null">
+                and PublicPrice != #{hqtCheckprice.publicprice}
+            </if>
+            <if test="hqtCheckprice.discount != null">
+                and Discount != #{hqtCheckprice.discount}
+            </if>
+            <if test="hqtCheckprice.privateprice != null">
+                and PrivatePrice != #{hqtCheckprice.privateprice}
+            </if>
+            <if test="hqtCheckprice.custratio != null">
+                and CustRatio != #{hqtCheckprice.custratio}
+            </if>
+            <if test="hqtCheckprice.edtbyuserid != null and hqtCheckprice.edtbyuserid != ''">
+                and EdtByUserId != #{hqtCheckprice.edtbyuserid}
+            </if>
+            <if test="hqtCheckprice.edttime != null">
+                and EdtTime != #{hqtCheckprice.edttime}
+            </if>
+            <if test="hqtCheckprice.creator != null and hqtCheckprice.creator != ''">
+                and Creator != #{hqtCheckprice.creator}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="HqtCheckpriceMap">
+        select
+        Id, CompanyId, ProjectName, StandardId, StandardName, NeedDevice, SampleQty, CheckPeriod, PricePrefix,
+        PriceSuffix, PublicPrice, Discount, PrivatePrice, CustRatio, EdtByUserId, EdtTime, Creator
+        from hiquality.hqt_checkprice
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId = #{companyid}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and ProjectName = #{projectname}
+            </if>
+            <if test="standardid != null and standardid != ''">
+                and StandardId = #{standardid}
+            </if>
+            <if test="standardname != null and standardname != ''">
+                and StandardName = #{standardname}
+            </if>
+            <if test="needdevice != null and needdevice != ''">
+                and NeedDevice = #{needdevice}
+            </if>
+            <if test="sampleqty != null and sampleqty != ''">
+                and SampleQty = #{sampleqty}
+            </if>
+            <if test="checkperiod != null and checkperiod != ''">
+                and CheckPeriod = #{checkperiod}
+            </if>
+            <if test="priceprefix != null and priceprefix != ''">
+                and PricePrefix = #{priceprefix}
+            </if>
+            <if test="pricesuffix != null and pricesuffix != ''">
+                and PriceSuffix = #{pricesuffix}
+            </if>
+            <if test="publicprice != null">
+                and PublicPrice = #{publicprice}
+            </if>
+            <if test="discount != null">
+                and Discount = #{discount}
+            </if>
+            <if test="privateprice != null">
+                and PrivatePrice = #{privateprice}
+            </if>
+            <if test="custratio != null">
+                and CustRatio = #{custratio}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime = #{edttime}
+            </if>
+            <if test="creator != null and creator != ''">
+                and Creator = #{creator}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="HqtCheckpriceMap">
+        select
+        Id, CompanyId, ProjectName, StandardId, StandardName, NeedDevice, SampleQty, CheckPeriod, PricePrefix,
+        PriceSuffix, PublicPrice, Discount, PrivatePrice, CustRatio, EdtByUserId, EdtTime, Creator
+        from hiquality.hqt_checkprice
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId like #{companyid}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                and ProjectName like #{projectname}
+            </if>
+            <if test="standardid != null and standardid != ''">
+                and StandardId like #{standardid}
+            </if>
+            <if test="standardname != null and standardname != ''">
+                and StandardName like #{standardname}
+            </if>
+            <if test="needdevice != null and needdevice != ''">
+                and NeedDevice like #{needdevice}
+            </if>
+            <if test="sampleqty != null and sampleqty != ''">
+                and SampleQty like #{sampleqty}
+            </if>
+            <if test="checkperiod != null and checkperiod != ''">
+                and CheckPeriod like #{checkperiod}
+            </if>
+            <if test="priceprefix != null and priceprefix != ''">
+                and PricePrefix like #{priceprefix}
+            </if>
+            <if test="pricesuffix != null and pricesuffix != ''">
+                and PriceSuffix like #{pricesuffix}
+            </if>
+            <if test="publicprice != null">
+                and PublicPrice like #{publicprice}
+            </if>
+            <if test="discount != null">
+                and Discount like #{discount}
+            </if>
+            <if test="privateprice != null">
+                and PrivatePrice like #{privateprice}
+            </if>
+            <if test="custratio != null">
+                and CustRatio like #{custratio}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId like #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime like #{edttime}
+            </if>
+            <if test="creator != null and creator != ''">
+                and Creator like #{creator}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="HqtCheckpriceMap">
+        select
+        Id, CompanyId, ProjectName, StandardId, StandardName, NeedDevice, SampleQty, CheckPeriod, PricePrefix,
+        PriceSuffix, PublicPrice, Discount, PrivatePrice, CustRatio, EdtByUserId, EdtTime, Creator
+        from hiquality.hqt_checkprice
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                or CompanyId = #{companyid}
+            </if>
+            <if test="projectname != null and projectname != ''">
+                or ProjectName = #{projectname}
+            </if>
+            <if test="standardid != null and standardid != ''">
+                or StandardId = #{standardid}
+            </if>
+            <if test="standardname != null and standardname != ''">
+                or StandardName = #{standardname}
+            </if>
+            <if test="needdevice != null and needdevice != ''">
+                or NeedDevice = #{needdevice}
+            </if>
+            <if test="sampleqty != null and sampleqty != ''">
+                or SampleQty = #{sampleqty}
+            </if>
+            <if test="checkperiod != null and checkperiod != ''">
+                or CheckPeriod = #{checkperiod}
+            </if>
+            <if test="priceprefix != null and priceprefix != ''">
+                or PricePrefix = #{priceprefix}
+            </if>
+            <if test="pricesuffix != null and pricesuffix != ''">
+                or PriceSuffix = #{pricesuffix}
+            </if>
+            <if test="publicprice != null">
+                or PublicPrice = #{publicprice}
+            </if>
+            <if test="discount != null">
+                or Discount = #{discount}
+            </if>
+            <if test="privateprice != null">
+                or PrivatePrice = #{privateprice}
+            </if>
+            <if test="custratio != null">
+                or CustRatio = #{custratio}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                or EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                or EdtTime = #{edttime}
+            </if>
+            <if test="creator != null and creator != ''">
+                or Creator = #{creator}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_checkprice(Id, CompanyId, ProjectName, StandardId, StandardName, NeedDevice,
+                                             SampleQty, CheckPeriod, PricePrefix, PriceSuffix, PublicPrice, Discount,
+                                             PrivatePrice, CustRatio, EdtByUserId, EdtTime, Creator)
+        values (#{id}, #{companyid}, #{projectname}, #{standardid}, #{standardname}, #{needdevice}, #{sampleqty},
+                #{checkperiod}, #{priceprefix}, #{pricesuffix}, #{publicprice}, #{discount}, #{privateprice},
+                #{custratio}, #{edtbyuserid}, #{edttime}, #{creator})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_checkprice(Id, CompanyId, ProjectName, StandardId, StandardName, NeedDevice,
+        SampleQty, CheckPeriod, PricePrefix, PriceSuffix, PublicPrice, Discount, PrivatePrice, CustRatio, EdtByUserId,
+        EdtTime, Creator)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.companyid}, #{entity.projectname}, #{entity.standardid}, #{entity.standardname},
+            #{entity.needdevice}, #{entity.sampleqty}, #{entity.checkperiod}, #{entity.priceprefix},
+            #{entity.pricesuffix}, #{entity.publicprice}, #{entity.discount}, #{entity.privateprice},
+            #{entity.custratio}, #{entity.edtbyuserid}, #{entity.edttime}, #{entity.creator})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_checkprice(Id, CompanyId, ProjectName, StandardId, StandardName, NeedDevice,
+        SampleQty, CheckPeriod, PricePrefix, PriceSuffix, PublicPrice, Discount, PrivatePrice, CustRatio, EdtByUserId,
+        EdtTime, Creator)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.companyid}, #{entity.projectname}, #{entity.standardid}, #{entity.standardname},
+            #{entity.needdevice}, #{entity.sampleqty}, #{entity.checkperiod}, #{entity.priceprefix},
+            #{entity.pricesuffix}, #{entity.publicprice}, #{entity.discount}, #{entity.privateprice},
+            #{entity.custratio}, #{entity.edtbyuserid}, #{entity.edttime}, #{entity.creator})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , CompanyId = values(CompanyId) , ProjectName = values(ProjectName) , StandardId =
+        values(StandardId) , StandardName = values(StandardName) , NeedDevice = values(NeedDevice) , SampleQty =
+        values(SampleQty) , CheckPeriod = values(CheckPeriod) , PricePrefix = values(PricePrefix) , PriceSuffix =
+        values(PriceSuffix) , PublicPrice = values(PublicPrice) , Discount = values(Discount) , PrivatePrice =
+        values(PrivatePrice) , CustRatio = values(CustRatio) , EdtByUserId = values(EdtByUserId) , EdtTime =
+        values(EdtTime) , Creator = values(Creator)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.hqt_checkprice
+        <set>
+            CompanyId = #{companyid},
+            ProjectName = #{projectname},
+            StandardId = #{standardid},
+            StandardName = #{standardname},
+            NeedDevice = #{needdevice},
+            SampleQty = #{sampleqty},
+            CheckPeriod = #{checkperiod},
+            PricePrefix = #{priceprefix},
+            PriceSuffix = #{pricesuffix},
+            PublicPrice = #{publicprice},
+            Discount = #{discount},
+            PrivatePrice = #{privateprice},
+            CustRatio = #{custratio},
+            EdtByUserId = #{edtbyuserid},
+            EdtTime = #{edttime},
+            Creator = #{creator},
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.hqt_checkprice
+        where Id = #{id}
+    </delete>
+
+</mapper>
