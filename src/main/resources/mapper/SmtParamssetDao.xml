@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.SmtParamssetDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.SmtParamsset" id="SmtParamssetMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="issyslog" column="IsSysLog" jdbcType="BOOLEAN"/>
+        <result property="reporthintdays" column="ReportHintDays" jdbcType="INTEGER"/>
+        <result property="isblackwhite" column="IsBlackWhite" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SmtParamssetMap">
+        select Id,
+               IsSysLog,
+               ReportHintDays,
+               IsBlackWhite
+        from hiquality.smt_paramsset
+        where Id = #{id}
+    </select>
+
+    <!--条件查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*) from hiquality.smt_paramsset
+        <where>
+            <if test="smtParamsset.id != null and smtParamsset.id != ''">
+                and Id REGEXP #{smtParamsset.id}
+            </if>
+            <if test="smtParamsset.issyslog != null">
+                and IsSysLog REGEXP #{smtParamsset.issyslog}
+            </if>
+            <if test="smtParamsset.reporthintdays != null">
+                and ReportHintDays REGEXP #{smtParamsset.reporthintdays}
+            </if>
+            <if test="smtParamsset.isblackwhite != null">
+                and IsBlackWhite REGEXP #{smtParamsset.isblackwhite}
+            </if>
+            <if test="specialdatalist != null and specialdatalist.size != 0">
+                and ${specialfield} in
+                <foreach collection="specialdatalist" item="item" index="index" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--不等于条件查询记录总数-->
+    <select id="getCountByNotEqual" resultType="int">
+        select count(*) from hiquality.smt_paramsset
+        <where>
+            <if test="id != null and id != ''">
+                and Id != #{id}
+            </if>
+            <if test="issyslog != null">
+                and IsSysLog != #{issyslog}
+            </if>
+            <if test="reporthintdays != null">
+                and ReportHintDays != #{reporthintdays}
+            </if>
+            <if test="isblackwhite != null">
+                and IsBlackWhite != #{isblackwhite}
+            </if>
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SmtParamssetMap">
+        select
+        Id, IsSysLog, ReportHintDays, IsBlackWhite
+        from hiquality.smt_paramsset
+        <where>
+            <if test="smtParamsset.id != null and smtParamsset.id != ''">
+                and Id REGEXP #{smtParamsset.id}
+            </if>
+            <if test="smtParamsset.issyslog != null">
+                and IsSysLog REGEXP #{smtParamsset.issyslog}
+            </if>
+            <if test="smtParamsset.reporthintdays != null">
+                and ReportHintDays REGEXP #{smtParamsset.reporthintdays}
+            </if>
+            <if test="smtParamsset.isblackwhite != null">
+                and IsBlackWhite REGEXP #{smtParamsset.isblackwhite}
+            </if>
+            <if test="specialdatalist != null and specialdatalist.size != 0">
+                and ${specialfield} in
+                <foreach collection="specialdatalist" item="item" index="index" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--不等于查询指定行数据-->
+    <select id="queryNotEqualAllByLimit" resultMap="SmtParamssetMap">
+        select
+        Id, IsSysLog, ReportHintDays, IsBlackWhite
+        from hiquality.smt_paramsset
+        <where>
+            <if test="smtParamsset.id != null and smtParamsset.id != ''">
+                and Id != #{smtParamsset.id}
+            </if>
+            <if test="smtParamsset.issyslog != null">
+                and IsSysLog != #{smtParamsset.issyslog}
+            </if>
+            <if test="smtParamsset.reporthintdays != null">
+                and ReportHintDays != #{smtParamsset.reporthintdays}
+            </if>
+            <if test="smtParamsset.isblackwhite != null">
+                and IsBlackWhite != #{smtParamsset.isblackwhite}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SmtParamssetMap">
+        select
+        Id, IsSysLog, ReportHintDays, IsBlackWhite
+        from hiquality.smt_paramsset
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="issyslog != null">
+                and IsSysLog = #{issyslog}
+            </if>
+            <if test="reporthintdays != null">
+                and ReportHintDays = #{reporthintdays}
+            </if>
+            <if test="isblackwhite != null">
+                and IsBlackWhite = #{isblackwhite}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="SmtParamssetMap">
+        select
+        Id, IsSysLog, ReportHintDays, IsBlackWhite
+        from hiquality.smt_paramsset
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="issyslog != null">
+                and IsSysLog like #{issyslog}
+            </if>
+            <if test="reporthintdays != null">
+                and ReportHintDays like #{reporthintdays}
+            </if>
+            <if test="isblackwhite != null">
+                and IsBlackWhite like #{isblackwhite}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="SmtParamssetMap">
+        select
+        Id, IsSysLog, ReportHintDays, IsBlackWhite
+        from hiquality.smt_paramsset
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="issyslog != null">
+                or IsSysLog = #{issyslog}
+            </if>
+            <if test="reporthintdays != null">
+                or ReportHintDays = #{reporthintdays}
+            </if>
+            <if test="isblackwhite != null">
+                or IsBlackWhite = #{isblackwhite}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_paramsset(Id, IsSysLog, ReportHintDays, IsBlackWhite)
+        values (#{id}, #{issyslog}, #{reporthintdays}, #{isblackwhite})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_paramsset(Id, IsSysLog, ReportHintDays, IsBlackWhite)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.issyslog}, #{entity.reporthintdays}, #{entity.isblackwhite})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_paramsset(Id, IsSysLog, ReportHintDays, IsBlackWhite)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.issyslog}, #{entity.reporthintdays}, #{entity.isblackwhite})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , IsSysLog = values(IsSysLog) , ReportHintDays = values(ReportHintDays) , IsBlackWhite =
+        values(IsBlackWhite)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.smt_paramsset
+        <set>
+            IsSysLog = #{issyslog},
+            ReportHintDays = #{reporthintdays},
+            IsBlackWhite = #{isblackwhite},
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.smt_paramsset
+        where Id = #{id}
+    </delete>
+
+</mapper>

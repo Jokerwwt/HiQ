@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.SmtUserDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.SmtUser" id="SmtUserMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="userid" column="UserId" jdbcType="VARCHAR"/>
+        <result property="username" column="UserName" jdbcType="VARCHAR"/>
+        <result property="password" column="Password" jdbcType="VARCHAR"/>
+        <result property="companyid" column="CompanyId" jdbcType="VARCHAR"/>
+        <result property="deptid" column="DeptId" jdbcType="VARCHAR"/>
+        <result property="photo" column="Photo" jdbcType="VARCHAR"/>
+        <result property="mobile" column="Mobile" jdbcType="VARCHAR"/>
+        <result property="email" column="Email" jdbcType="VARCHAR"/>
+        <result property="remark" column="Remark" jdbcType="VARCHAR"/>
+        <result property="status" column="Status" jdbcType="VARCHAR"/>
+        <result property="creator" column="Creator" jdbcType="VARCHAR"/>
+        <result property="issysuser" column="IsSysuser" jdbcType="BOOLEAN"/>
+        <result property="edtbyuserid" column="EdtByUserId" jdbcType="VARCHAR"/>
+        <result property="edttime" column="EdtTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SmtUserMap">
+        select Id,
+               UserId,
+               UserName,
+               Password,
+               CompanyId,
+               DeptId,
+               Photo,
+               Mobile,
+               Email,
+               Remark,
+               Status,
+               Creator,
+               IsSysuser,
+               EdtByUserId,
+               EdtTime
+        from hiquality.smt_user
+        where Id = #{id}
+    </select>
+
+    <!--条件查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*) from hiquality.smt_user
+        <where>
+            <if test="smtUser.id != null and smtUser.id != ''">
+                and Id REGEXP #{smtUser.id}
+            </if>
+            <if test="smtUser.userid != null and smtUser.userid != ''">
+                and UserId REGEXP #{smtUser.userid}
+            </if>
+            <if test="smtUser.username != null and smtUser.username != ''">
+                and UserName REGEXP #{smtUser.username}
+            </if>
+            <if test="smtUser.password != null and smtUser.password != ''">
+                and Password REGEXP #{smtUser.password}
+            </if>
+            <if test="smtUser.companyid != null and smtUser.companyid != ''">
+                and CompanyId REGEXP #{smtUser.companyid}
+            </if>
+            <if test="smtUser.deptid != null and smtUser.deptid != ''">
+                and DeptId REGEXP #{smtUser.deptid}
+            </if>
+            <if test="smtUser.photo != null">
+                and Photo REGEXP #{smtUser.photo}
+            </if>
+            <if test="smtUser.mobile != null and smtUser.mobile != ''">
+                and Mobile REGEXP #{smtUser.mobile}
+            </if>
+            <if test="smtUser.email != null and smtUser.email != ''">
+                and Email REGEXP #{smtUser.email}
+            </if>
+            <if test="smtUser.remark != null and smtUser.remark != ''">
+                and Remark REGEXP #{smtUser.remark}
+            </if>
+            <if test="smtUser.status != null and smtUser.status != ''">
+                and Status REGEXP #{smtUser.status}
+            </if>
+            <if test="smtUser.creator != null and smtUser.creator != ''">
+                and Creator REGEXP #{smtUser.creator}
+            </if>
+            <if test="smtUser.issysuser != null">
+                and IsSysuser REGEXP #{smtUser.issysuser}
+            </if>
+            <if test="smtUser.edtbyuserid != null and smtUser.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{smtUser.edtbyuserid}
+            </if>
+            <if test="smtUser.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{smtUser.edttime},'%y-%m-%d')
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--不等于条件查询记录总数-->
+    <select id="getCountByNotEqual" resultType="int">
+        select count(*) from hiquality.smt_user
+        <where>
+            <if test="id != null and id != ''">
+                and Id != #{id}
+            </if>
+            <if test="userid != null and userid != ''">
+                and UserId != #{userid}
+            </if>
+            <if test="username != null and username != ''">
+                and UserName != #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and Password != #{password}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId != #{companyid}
+            </if>
+            <if test="deptid != null and deptid != ''">
+                and DeptId != #{deptid}
+            </if>
+            <if test="photo != null">
+                and Photo != #{photo}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and Mobile != #{mobile}
+            </if>
+            <if test="email != null and email != ''">
+                and Email != #{email}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark != #{remark}
+            </if>
+            <if test="status != null and status != ''">
+                and Status != #{status}
+            </if>
+            <if test="creator != null and creator != ''">
+                and Creator != #{creator}
+            </if>
+            <if test="issysuser != null">
+                and IsSysuser != #{issysuser}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId != #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime != #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SmtUserMap">
+        select
+        Id, UserId, UserName, Password, CompanyId, DeptId, Photo, Mobile, Email, Remark, Status, Creator, IsSysuser,
+        EdtByUserId, EdtTime
+        from hiquality.smt_user
+        <where>
+            <if test="smtUser.id != null and smtUser.id != ''">
+                and Id REGEXP #{smtUser.id}
+            </if>
+            <if test="smtUser.userid != null and smtUser.userid != ''">
+                and UserId REGEXP #{smtUser.userid}
+            </if>
+            <if test="smtUser.username != null and smtUser.username != ''">
+                and UserName REGEXP #{smtUser.username}
+            </if>
+            <if test="smtUser.password != null and smtUser.password != ''">
+                and Password REGEXP #{smtUser.password}
+            </if>
+            <if test="smtUser.companyid != null and smtUser.companyid != ''">
+                and CompanyId REGEXP #{smtUser.companyid}
+            </if>
+            <if test="smtUser.deptid != null and smtUser.deptid != ''">
+                and DeptId REGEXP #{smtUser.deptid}
+            </if>
+            <if test="smtUser.photo != null">
+                and Photo REGEXP #{smtUser.photo}
+            </if>
+            <if test="smtUser.mobile != null and smtUser.mobile != ''">
+                and Mobile REGEXP #{smtUser.mobile}
+            </if>
+            <if test="smtUser.email != null and smtUser.email != ''">
+                and Email REGEXP #{smtUser.email}
+            </if>
+            <if test="smtUser.remark != null and smtUser.remark != ''">
+                and Remark REGEXP #{smtUser.remark}
+            </if>
+            <if test="smtUser.status != null and smtUser.status != ''">
+                and Status REGEXP #{smtUser.status}
+            </if>
+            <if test="smtUser.creator != null and smtUser.creator != ''">
+                and Creator REGEXP #{smtUser.creator}
+            </if>
+            <if test="smtUser.issysuser != null">
+                and IsSysuser REGEXP #{smtUser.issysuser}
+            </if>
+            <if test="smtUser.edtbyuserid != null and smtUser.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{smtUser.edtbyuserid}
+            </if>
+            <if test="smtUser.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{smtUser.edttime},'%y-%m-%d')
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--不等于查询指定行数据-->
+    <select id="queryNotEqualAllByLimit" resultMap="SmtUserMap">
+        select
+        Id, UserId, UserName, Password, CompanyId, DeptId, Photo, Mobile, Email, Remark, Status, Creator, IsSysuser,
+        EdtByUserId, EdtTime
+        from hiquality.smt_user
+        <where>
+            <if test="smtUser.id != null and smtUser.id != ''">
+                and Id != #{smtUser.id}
+            </if>
+            <if test="smtUser.userid != null and smtUser.userid != ''">
+                and UserId != #{smtUser.userid}
+            </if>
+            <if test="smtUser.username != null and smtUser.username != ''">
+                and UserName != #{smtUser.username}
+            </if>
+            <if test="smtUser.password != null and smtUser.password != ''">
+                and Password != #{smtUser.password}
+            </if>
+            <if test="smtUser.companyid != null and smtUser.companyid != ''">
+                and CompanyId != #{smtUser.companyid}
+            </if>
+            <if test="smtUser.deptid != null and smtUser.deptid != ''">
+                and DeptId != #{smtUser.deptid}
+            </if>
+            <if test="smtUser.photo != null">
+                and Photo != #{smtUser.photo}
+            </if>
+            <if test="smtUser.mobile != null and smtUser.mobile != ''">
+                and Mobile != #{smtUser.mobile}
+            </if>
+            <if test="smtUser.email != null and smtUser.email != ''">
+                and Email != #{smtUser.email}
+            </if>
+            <if test="smtUser.remark != null and smtUser.remark != ''">
+                and Remark != #{smtUser.remark}
+            </if>
+            <if test="smtUser.status != null and smtUser.status != ''">
+                and Status != #{smtUser.status}
+            </if>
+            <if test="smtUser.creator != null and smtUser.creator != ''">
+                and Creator != #{smtUser.creator}
+            </if>
+            <if test="smtUser.issysuser != null">
+                and IsSysuser != #{smtUser.issysuser}
+            </if>
+            <if test="smtUser.edtbyuserid != null and smtUser.edtbyuserid != ''">
+                and EdtByUserId != #{smtUser.edtbyuserid}
+            </if>
+            <if test="smtUser.edttime != null">
+                and EdtTime != #{smtUser.edttime}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SmtUserMap">
+        select
+        Id, UserId, UserName, Password, CompanyId, DeptId, Photo, Mobile, Email, Remark, Status, Creator, IsSysuser,
+        EdtByUserId, EdtTime
+        from hiquality.smt_user
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="userid != null and userid != ''">
+                and UserId = #{userid}
+            </if>
+            <if test="username != null and username != ''">
+                and UserName = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and Password = #{password}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId = #{companyid}
+            </if>
+            <if test="deptid != null and deptid != ''">
+                and DeptId = #{deptid}
+            </if>
+            <if test="photo != null">
+                and Photo = #{photo}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and Mobile = #{mobile}
+            </if>
+            <if test="email != null and email != ''">
+                and Email = #{email}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark = #{remark}
+            </if>
+            <if test="status != null and status != ''">
+                and Status = #{status}
+            </if>
+            <if test="creator != null and creator != ''">
+                and Creator = #{creator}
+            </if>
+            <if test="issysuser != null">
+                and IsSysuser = #{issysuser}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime = #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="SmtUserMap">
+        select
+        Id, UserId, UserName, Password, CompanyId, DeptId, Photo, Mobile, Email, Remark, Status, Creator, IsSysuser,
+        EdtByUserId, EdtTime
+        from hiquality.smt_user
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="userid != null and userid != ''">
+                and UserId like #{userid}
+            </if>
+            <if test="username != null and username != ''">
+                and UserName like #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and Password like #{password}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId like #{companyid}
+            </if>
+            <if test="deptid != null and deptid != ''">
+                and DeptId like #{deptid}
+            </if>
+            <if test="photo != null">
+                and Photo like #{photo}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and Mobile like #{mobile}
+            </if>
+            <if test="email != null and email != ''">
+                and Email like #{email}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark like #{remark}
+            </if>
+            <if test="status != null and status != ''">
+                and Status like #{status}
+            </if>
+            <if test="creator != null and creator != ''">
+                and Creator like #{creator}
+            </if>
+            <if test="issysuser != null">
+                and IsSysuser like #{issysuser}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId like #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime like #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="SmtUserMap">
+        select
+        Id, UserId, UserName, Password, CompanyId, DeptId, Photo, Mobile, Email, Remark, Status, Creator, IsSysuser,
+        EdtByUserId, EdtTime
+        from hiquality.smt_user
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="userid != null and userid != ''">
+                or UserId = #{userid}
+            </if>
+            <if test="username != null and username != ''">
+                or UserName = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                or Password = #{password}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                or CompanyId = #{companyid}
+            </if>
+            <if test="deptid != null and deptid != ''">
+                or DeptId = #{deptid}
+            </if>
+            <if test="photo != null">
+                or Photo = #{photo}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                or Mobile = #{mobile}
+            </if>
+            <if test="email != null and email != ''">
+                or Email = #{email}
+            </if>
+            <if test="remark != null and remark != ''">
+                or Remark = #{remark}
+            </if>
+            <if test="status != null and status != ''">
+                or Status = #{status}
+            </if>
+            <if test="creator != null and creator != ''">
+                or Creator = #{creator}
+            </if>
+            <if test="issysuser != null">
+                or IsSysuser = #{issysuser}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                or EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                or EdtTime = #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_user(Id, UserId, UserName, Password, CompanyId, DeptId, Photo, Mobile, Email, Remark,
+                                       Status, Creator, IsSysuser, EdtByUserId, EdtTime)
+        values (#{id}, #{userid}, #{username}, #{password}, #{companyid}, #{deptid}, #{photo}, #{mobile}, #{email},
+                #{remark}, #{status}, #{creator}, #{issysuser}, #{edtbyuserid}, #{edttime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_user(Id, UserId, UserName, Password, CompanyId, DeptId, Photo, Mobile, Email, Remark,
+        Status, Creator, IsSysuser, EdtByUserId, EdtTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.userid}, #{entity.username}, #{entity.password}, #{entity.companyid},
+            #{entity.deptid}, #{entity.photo}, #{entity.mobile}, #{entity.email}, #{entity.remark}, #{entity.status},
+            #{entity.creator}, #{entity.issysuser}, #{entity.edtbyuserid}, #{entity.edttime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_user(Id, UserId, UserName, Password, CompanyId, DeptId, Photo, Mobile, Email, Remark,
+        Status, Creator, IsSysuser, EdtByUserId, EdtTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.userid}, #{entity.username}, #{entity.password}, #{entity.companyid},
+            #{entity.deptid}, #{entity.photo}, #{entity.mobile}, #{entity.email}, #{entity.remark}, #{entity.status},
+            #{entity.creator}, #{entity.issysuser}, #{entity.edtbyuserid}, #{entity.edttime})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , UserId = values(UserId) , UserName = values(UserName) , Password = values(Password) ,
+        CompanyId = values(CompanyId) , DeptId = values(DeptId) , Photo = values(Photo) , Mobile = values(Mobile) ,
+        Email = values(Email) , Remark = values(Remark) , Status = values(Status) , Creator = values(Creator) ,
+        IsSysuser = values(IsSysuser) , EdtByUserId = values(EdtByUserId) , EdtTime = values(EdtTime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.smt_user
+        <set>
+            UserId = #{userid},
+            UserName = #{username},
+            Password = #{password},
+            CompanyId = #{companyid},
+            DeptId = #{deptid},
+            Photo = #{photo},
+            Mobile = #{mobile},
+            Email = #{email},
+            Remark = #{remark},
+            Status = #{status},
+            Creator = #{creator},
+            IsSysuser = #{issysuser},
+            EdtByUserId = #{edtbyuserid},
+            EdtTime = #{edttime},
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.smt_user
+        where Id = #{id}
+    </delete>
+
+</mapper>

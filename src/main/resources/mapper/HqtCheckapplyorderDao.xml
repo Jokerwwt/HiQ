@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.HqtCheckapplyorderDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.HqtCheckapplyorder" id="HqtCheckapplyorderMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="orderid" column="OrderId" jdbcType="VARCHAR"/>
+        <result property="ordername" column="OrderName" jdbcType="VARCHAR"/>
+        <result property="orderdate" column="OrderDate" jdbcType="TIMESTAMP"/>
+        <result property="hopeenddate" column="HopeEndDate" jdbcType="TIMESTAMP"/>
+        <result property="customerid" column="CustomerId" jdbcType="VARCHAR"/>
+        <result property="samplename" column="SampleName" jdbcType="VARCHAR"/>
+        <result property="contactor" column="Contactor" jdbcType="VARCHAR"/>
+        <result property="checkrequire" column="CheckRequire" jdbcType="VARCHAR"/>
+        <result property="amt" column="Amt" jdbcType="NUMERIC"/>
+        <result property="status" column="Status" jdbcType="VARCHAR"/>
+        <result property="remark" column="Remark" jdbcType="VARCHAR"/>
+        <result property="edtbyuserid" column="EdtByUserId" jdbcType="VARCHAR"/>
+        <result property="edttime" column="EdtTime" jdbcType="TIMESTAMP"/>
+        <result property="telno" column="TelNo" jdbcType="VARCHAR"/>
+        <result property="accepter" column="Accepter" jdbcType="VARCHAR"/>
+        <result property="orderman" column="OrderMan" jdbcType="VARCHAR"/>
+        <result property="checkers" column="Checkers" jdbcType="VARCHAR"/>
+        <result property="tocompany" column="ToCompany" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="HqtCheckapplyorderMap">
+        select Id,
+               OrderId,
+               OrderName,
+               OrderDate,
+               HopeEndDate,
+               CustomerId,
+               SampleName,
+               Contactor,
+               CheckRequire,
+               Amt,
+               Status,
+               Remark,
+               EdtByUserId,
+               EdtTime,
+               TelNo,
+               Accepter,
+               OrderMan,
+               Checkers,
+               ToCompany
+        from hiquality.hqt_checkapplyorder
+        where Id = #{id}
+    </select>
+
+    <!--条件查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*) from hiquality.hqt_checkapplyorder
+        <where>
+            <if test="hqtCheckapplyorder.id != null and hqtCheckapplyorder.id != ''">
+                and Id REGEXP #{hqtCheckapplyorder.id}
+            </if>
+            <if test="hqtCheckapplyorder.orderid != null and hqtCheckapplyorder.orderid != ''">
+                and OrderId REGEXP #{hqtCheckapplyorder.orderid}
+            </if>
+            <if test="hqtCheckapplyorder.ordername != null and hqtCheckapplyorder.ordername != ''">
+                and OrderName REGEXP #{hqtCheckapplyorder.ordername}
+            </if>
+            <if test="hqtCheckapplyorder.orderdate != null">
+                and OrderDate REGEXP DATE_FORMAT(#{hqtCheckapplyorder.orderdate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckapplyorder.hopeenddate != null">
+                and HopeEndDate REGEXP DATE_FORMAT(#{hqtCheckapplyorder.hopeenddate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckapplyorder.customerid != null and hqtCheckapplyorder.customerid != ''">
+                and CustomerId REGEXP #{hqtCheckapplyorder.customerid}
+            </if>
+            <if test="hqtCheckapplyorder.samplename != null and hqtCheckapplyorder.samplename != ''">
+                and SampleName REGEXP #{hqtCheckapplyorder.samplename}
+            </if>
+            <if test="hqtCheckapplyorder.contactor != null and hqtCheckapplyorder.contactor != ''">
+                and Contactor REGEXP #{hqtCheckapplyorder.contactor}
+            </if>
+            <if test="hqtCheckapplyorder.checkrequire != null and hqtCheckapplyorder.checkrequire != ''">
+                and CheckRequire REGEXP #{hqtCheckapplyorder.checkrequire}
+            </if>
+            <if test="hqtCheckapplyorder.amt != null">
+                and Amt REGEXP #{hqtCheckapplyorder.amt}
+            </if>
+            <if test="hqtCheckapplyorder.status != null and hqtCheckapplyorder.status != ''">
+                and Status REGEXP #{hqtCheckapplyorder.status}
+            </if>
+            <if test="hqtCheckapplyorder.remark != null and hqtCheckapplyorder.remark != ''">
+                and Remark REGEXP #{hqtCheckapplyorder.remark}
+            </if>
+            <if test="hqtCheckapplyorder.edtbyuserid != null and hqtCheckapplyorder.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{hqtCheckapplyorder.edtbyuserid}
+            </if>
+            <if test="hqtCheckapplyorder.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{hqtCheckapplyorder.edttime},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckapplyorder.telno != null and hqtCheckapplyorder.telno != ''">
+                and TelNo REGEXP #{hqtCheckapplyorder.telno}
+            </if>
+            <if test="hqtCheckapplyorder.accepter != null and hqtCheckapplyorder.accepter != ''">
+                and Accepter REGEXP #{hqtCheckapplyorder.accepter}
+            </if>
+            <if test="hqtCheckapplyorder.orderman != null and hqtCheckapplyorder.orderman != ''">
+                and OrderMan REGEXP #{hqtCheckapplyorder.orderman}
+            </if>
+            <if test="hqtCheckapplyorder.checkers != null and hqtCheckapplyorder.checkers != ''">
+                and Checkers REGEXP #{hqtCheckapplyorder.checkers}
+            </if>
+            <if test="hqtCheckapplyorder.tocompany != null and hqtCheckapplyorder.tocompany != ''">
+                and ToCompany REGEXP #{hqtCheckapplyorder.tocompany}
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--不等于条件查询记录总数-->
+    <select id="getCountByNotEqual" resultType="int">
+        select count(*) from hiquality.hqt_checkapplyorder
+        <where>
+            <if test="id != null and id != ''">
+                and Id != #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and OrderId != #{orderid}
+            </if>
+            <if test="ordername != null and ordername != ''">
+                and OrderName != #{ordername}
+            </if>
+            <if test="orderdate != null">
+                and OrderDate != #{orderdate}
+            </if>
+            <if test="hopeenddate != null">
+                and HopeEndDate != #{hopeenddate}
+            </if>
+            <if test="customerid != null and customerid != ''">
+                and CustomerId != #{customerid}
+            </if>
+            <if test="samplename != null and samplename != ''">
+                and SampleName != #{samplename}
+            </if>
+            <if test="contactor != null and contactor != ''">
+                and Contactor != #{contactor}
+            </if>
+            <if test="checkrequire != null and checkrequire != ''">
+                and CheckRequire != #{checkrequire}
+            </if>
+            <if test="amt != null">
+                and Amt != #{amt}
+            </if>
+            <if test="status != null and status != ''">
+                and Status != #{status}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark != #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId != #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime != #{edttime}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo != #{telno}
+            </if>
+            <if test="accepter != null and accepter != ''">
+                and Accepter != #{accepter}
+            </if>
+            <if test="orderman != null and orderman != ''">
+                and OrderMan != #{orderman}
+            </if>
+            <if test="checkers != null and checkers != ''">
+                and Checkers != #{checkers}
+            </if>
+            <if test="tocompany != null and tocompany != ''">
+                and ToCompany != #{tocompany}
+            </if>
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="HqtCheckapplyorderMap">
+        select
+        Id, OrderId, OrderName, OrderDate, HopeEndDate, CustomerId, SampleName, Contactor, CheckRequire, Amt, Status,
+        Remark, EdtByUserId, EdtTime, TelNo, Accepter, OrderMan, Checkers, ToCompany
+        from hiquality.hqt_checkapplyorder
+        <where>
+            <if test="hqtCheckapplyorder.id != null and hqtCheckapplyorder.id != ''">
+                and Id REGEXP #{hqtCheckapplyorder.id}
+            </if>
+            <if test="hqtCheckapplyorder.orderid != null and hqtCheckapplyorder.orderid != ''">
+                and OrderId REGEXP #{hqtCheckapplyorder.orderid}
+            </if>
+            <if test="hqtCheckapplyorder.ordername != null and hqtCheckapplyorder.ordername != ''">
+                and OrderName REGEXP #{hqtCheckapplyorder.ordername}
+            </if>
+            <if test="hqtCheckapplyorder.orderdate != null">
+                and OrderDate REGEXP DATE_FORMAT(#{hqtCheckapplyorder.orderdate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckapplyorder.hopeenddate != null">
+                and HopeEndDate REGEXP DATE_FORMAT(#{hqtCheckapplyorder.hopeenddate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckapplyorder.customerid != null and hqtCheckapplyorder.customerid != ''">
+                and CustomerId REGEXP #{hqtCheckapplyorder.customerid}
+            </if>
+            <if test="hqtCheckapplyorder.samplename != null and hqtCheckapplyorder.samplename != ''">
+                and SampleName REGEXP #{hqtCheckapplyorder.samplename}
+            </if>
+            <if test="hqtCheckapplyorder.contactor != null and hqtCheckapplyorder.contactor != ''">
+                and Contactor REGEXP #{hqtCheckapplyorder.contactor}
+            </if>
+            <if test="hqtCheckapplyorder.checkrequire != null and hqtCheckapplyorder.checkrequire != ''">
+                and CheckRequire REGEXP #{hqtCheckapplyorder.checkrequire}
+            </if>
+            <if test="hqtCheckapplyorder.amt != null">
+                and Amt REGEXP #{hqtCheckapplyorder.amt}
+            </if>
+            <if test="hqtCheckapplyorder.status != null and hqtCheckapplyorder.status != ''">
+                and Status REGEXP #{hqtCheckapplyorder.status}
+            </if>
+            <if test="hqtCheckapplyorder.remark != null and hqtCheckapplyorder.remark != ''">
+                and Remark REGEXP #{hqtCheckapplyorder.remark}
+            </if>
+            <if test="hqtCheckapplyorder.edtbyuserid != null and hqtCheckapplyorder.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{hqtCheckapplyorder.edtbyuserid}
+            </if>
+            <if test="hqtCheckapplyorder.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{hqtCheckapplyorder.edttime},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckapplyorder.telno != null and hqtCheckapplyorder.telno != ''">
+                and TelNo REGEXP #{hqtCheckapplyorder.telno}
+            </if>
+            <if test="hqtCheckapplyorder.accepter != null and hqtCheckapplyorder.accepter != ''">
+                and Accepter REGEXP #{hqtCheckapplyorder.accepter}
+            </if>
+            <if test="hqtCheckapplyorder.orderman != null and hqtCheckapplyorder.orderman != ''">
+                and OrderMan REGEXP #{hqtCheckapplyorder.orderman}
+            </if>
+            <if test="hqtCheckapplyorder.checkers != null and hqtCheckapplyorder.checkers != ''">
+                and Checkers REGEXP #{hqtCheckapplyorder.checkers}
+            </if>
+            <if test="hqtCheckapplyorder.tocompany != null and hqtCheckapplyorder.tocompany != ''">
+                and ToCompany REGEXP #{hqtCheckapplyorder.tocompany}
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--不等于查询指定行数据-->
+    <select id="queryNotEqualAllByLimit" resultMap="HqtCheckapplyorderMap">
+        select
+        Id, OrderId, OrderName, OrderDate, HopeEndDate, CustomerId, SampleName, Contactor, CheckRequire, Amt, Status,
+        Remark, EdtByUserId, EdtTime, TelNo, Accepter, OrderMan, Checkers, ToCompany
+        from hiquality.hqt_checkapplyorder
+        <where>
+            <if test="hqtCheckapplyorder.id != null and hqtCheckapplyorder.id != ''">
+                and Id != #{hqtCheckapplyorder.id}
+            </if>
+            <if test="hqtCheckapplyorder.orderid != null and hqtCheckapplyorder.orderid != ''">
+                and OrderId != #{hqtCheckapplyorder.orderid}
+            </if>
+            <if test="hqtCheckapplyorder.ordername != null and hqtCheckapplyorder.ordername != ''">
+                and OrderName != #{hqtCheckapplyorder.ordername}
+            </if>
+            <if test="hqtCheckapplyorder.orderdate != null">
+                and OrderDate != #{hqtCheckapplyorder.orderdate}
+            </if>
+            <if test="hqtCheckapplyorder.hopeenddate != null">
+                and HopeEndDate != #{hqtCheckapplyorder.hopeenddate}
+            </if>
+            <if test="hqtCheckapplyorder.customerid != null and hqtCheckapplyorder.customerid != ''">
+                and CustomerId != #{hqtCheckapplyorder.customerid}
+            </if>
+            <if test="hqtCheckapplyorder.samplename != null and hqtCheckapplyorder.samplename != ''">
+                and SampleName != #{hqtCheckapplyorder.samplename}
+            </if>
+            <if test="hqtCheckapplyorder.contactor != null and hqtCheckapplyorder.contactor != ''">
+                and Contactor != #{hqtCheckapplyorder.contactor}
+            </if>
+            <if test="hqtCheckapplyorder.checkrequire != null and hqtCheckapplyorder.checkrequire != ''">
+                and CheckRequire != #{hqtCheckapplyorder.checkrequire}
+            </if>
+            <if test="hqtCheckapplyorder.amt != null">
+                and Amt != #{hqtCheckapplyorder.amt}
+            </if>
+            <if test="hqtCheckapplyorder.status != null and hqtCheckapplyorder.status != ''">
+                and Status != #{hqtCheckapplyorder.status}
+            </if>
+            <if test="hqtCheckapplyorder.remark != null and hqtCheckapplyorder.remark != ''">
+                and Remark != #{hqtCheckapplyorder.remark}
+            </if>
+            <if test="hqtCheckapplyorder.edtbyuserid != null and hqtCheckapplyorder.edtbyuserid != ''">
+                and EdtByUserId != #{hqtCheckapplyorder.edtbyuserid}
+            </if>
+            <if test="hqtCheckapplyorder.edttime != null">
+                and EdtTime != #{hqtCheckapplyorder.edttime}
+            </if>
+            <if test="hqtCheckapplyorder.telno != null and hqtCheckapplyorder.telno != ''">
+                and TelNo != #{hqtCheckapplyorder.telno}
+            </if>
+            <if test="hqtCheckapplyorder.accepter != null and hqtCheckapplyorder.accepter != ''">
+                and Accepter != #{hqtCheckapplyorder.accepter}
+            </if>
+            <if test="hqtCheckapplyorder.orderman != null and hqtCheckapplyorder.orderman != ''">
+                and OrderMan != #{hqtCheckapplyorder.orderman}
+            </if>
+            <if test="hqtCheckapplyorder.checkers != null and hqtCheckapplyorder.checkers != ''">
+                and Checkers != #{hqtCheckapplyorder.checkers}
+            </if>
+            <if test="hqtCheckapplyorder.tocompany != null and hqtCheckapplyorder.tocompany != ''">
+                and ToCompany != #{hqtCheckapplyorder.tocompany}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="HqtCheckapplyorderMap">
+        select
+        Id, OrderId, OrderName, OrderDate, HopeEndDate, CustomerId, SampleName, Contactor, CheckRequire, Amt, Status,
+        Remark, EdtByUserId, EdtTime, TelNo, Accepter, OrderMan, Checkers, ToCompany
+        from hiquality.hqt_checkapplyorder
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and OrderId = #{orderid}
+            </if>
+            <if test="ordername != null and ordername != ''">
+                and OrderName = #{ordername}
+            </if>
+            <if test="orderdate != null">
+                and OrderDate = #{orderdate}
+            </if>
+            <if test="hopeenddate != null">
+                and HopeEndDate = #{hopeenddate}
+            </if>
+            <if test="customerid != null and customerid != ''">
+                and CustomerId = #{customerid}
+            </if>
+            <if test="samplename != null and samplename != ''">
+                and SampleName = #{samplename}
+            </if>
+            <if test="contactor != null and contactor != ''">
+                and Contactor = #{contactor}
+            </if>
+            <if test="checkrequire != null and checkrequire != ''">
+                and CheckRequire = #{checkrequire}
+            </if>
+            <if test="amt != null">
+                and Amt = #{amt}
+            </if>
+            <if test="status != null and status != ''">
+                and Status = #{status}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark = #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime = #{edttime}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo = #{telno}
+            </if>
+            <if test="accepter != null and accepter != ''">
+                and Accepter = #{accepter}
+            </if>
+            <if test="orderman != null and orderman != ''">
+                and OrderMan = #{orderman}
+            </if>
+            <if test="checkers != null and checkers != ''">
+                and Checkers = #{checkers}
+            </if>
+            <if test="tocompany != null and tocompany != ''">
+                and ToCompany = #{tocompany}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="HqtCheckapplyorderMap">
+        select
+        Id, OrderId, OrderName, OrderDate, HopeEndDate, CustomerId, SampleName, Contactor, CheckRequire, Amt, Status,
+        Remark, EdtByUserId, EdtTime, TelNo, Accepter, OrderMan, Checkers, ToCompany
+        from hiquality.hqt_checkapplyorder
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and OrderId like #{orderid}
+            </if>
+            <if test="ordername != null and ordername != ''">
+                and OrderName like #{ordername}
+            </if>
+            <if test="orderdate != null">
+                and OrderDate like #{orderdate}
+            </if>
+            <if test="hopeenddate != null">
+                and HopeEndDate like #{hopeenddate}
+            </if>
+            <if test="customerid != null and customerid != ''">
+                and CustomerId like #{customerid}
+            </if>
+            <if test="samplename != null and samplename != ''">
+                and SampleName like #{samplename}
+            </if>
+            <if test="contactor != null and contactor != ''">
+                and Contactor like #{contactor}
+            </if>
+            <if test="checkrequire != null and checkrequire != ''">
+                and CheckRequire like #{checkrequire}
+            </if>
+            <if test="amt != null">
+                and Amt like #{amt}
+            </if>
+            <if test="status != null and status != ''">
+                and Status like #{status}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark like #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId like #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime like #{edttime}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo like #{telno}
+            </if>
+            <if test="accepter != null and accepter != ''">
+                and Accepter like #{accepter}
+            </if>
+            <if test="orderman != null and orderman != ''">
+                and OrderMan like #{orderman}
+            </if>
+            <if test="checkers != null and checkers != ''">
+                and Checkers like #{checkers}
+            </if>
+            <if test="tocompany != null and tocompany != ''">
+                and ToCompany like #{tocompany}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="HqtCheckapplyorderMap">
+        select
+        Id, OrderId, OrderName, OrderDate, HopeEndDate, CustomerId, SampleName, Contactor, CheckRequire, Amt, Status,
+        Remark, EdtByUserId, EdtTime, TelNo, Accepter, OrderMan, Checkers, ToCompany
+        from hiquality.hqt_checkapplyorder
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                or OrderId = #{orderid}
+            </if>
+            <if test="ordername != null and ordername != ''">
+                or OrderName = #{ordername}
+            </if>
+            <if test="orderdate != null">
+                or OrderDate = #{orderdate}
+            </if>
+            <if test="hopeenddate != null">
+                or HopeEndDate = #{hopeenddate}
+            </if>
+            <if test="customerid != null and customerid != ''">
+                or CustomerId = #{customerid}
+            </if>
+            <if test="samplename != null and samplename != ''">
+                or SampleName = #{samplename}
+            </if>
+            <if test="contactor != null and contactor != ''">
+                or Contactor = #{contactor}
+            </if>
+            <if test="checkrequire != null and checkrequire != ''">
+                or CheckRequire = #{checkrequire}
+            </if>
+            <if test="amt != null">
+                or Amt = #{amt}
+            </if>
+            <if test="status != null and status != ''">
+                or Status = #{status}
+            </if>
+            <if test="remark != null and remark != ''">
+                or Remark = #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                or EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                or EdtTime = #{edttime}
+            </if>
+            <if test="telno != null and telno != ''">
+                or TelNo = #{telno}
+            </if>
+            <if test="accepter != null and accepter != ''">
+                or Accepter = #{accepter}
+            </if>
+            <if test="orderman != null and orderman != ''">
+                or OrderMan = #{orderman}
+            </if>
+            <if test="checkers != null and checkers != ''">
+                or Checkers = #{checkers}
+            </if>
+            <if test="tocompany != null and tocompany != ''">
+                or ToCompany = #{tocompany}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_checkapplyorder(Id, OrderId, OrderName, OrderDate, HopeEndDate, CustomerId,
+                                                  SampleName, Contactor, CheckRequire, Amt, Status, Remark, EdtByUserId,
+                                                  EdtTime, TelNo, Accepter, OrderMan, Checkers, ToCompany)
+        values (#{id}, #{orderid}, #{ordername}, #{orderdate}, #{hopeenddate}, #{customerid}, #{samplename},
+                #{contactor}, #{checkrequire}, #{amt}, #{status}, #{remark}, #{edtbyuserid}, #{edttime}, #{telno},
+                #{accepter}, #{orderman}, #{checkers}, #{tocompany})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_checkapplyorder(Id, OrderId, OrderName, OrderDate, HopeEndDate, CustomerId,
+        SampleName, Contactor, CheckRequire, Amt, Status, Remark, EdtByUserId, EdtTime, TelNo, Accepter, OrderMan,
+        Checkers, ToCompany)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.orderid}, #{entity.ordername}, #{entity.orderdate}, #{entity.hopeenddate},
+            #{entity.customerid}, #{entity.samplename}, #{entity.contactor}, #{entity.checkrequire}, #{entity.amt},
+            #{entity.status}, #{entity.remark}, #{entity.edtbyuserid}, #{entity.edttime}, #{entity.telno},
+            #{entity.accepter}, #{entity.orderman}, #{entity.checkers}, #{entity.tocompany})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_checkapplyorder(Id, OrderId, OrderName, OrderDate, HopeEndDate, CustomerId,
+        SampleName, Contactor, CheckRequire, Amt, Status, Remark, EdtByUserId, EdtTime, TelNo, Accepter, OrderMan,
+        Checkers, ToCompany)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.orderid}, #{entity.ordername}, #{entity.orderdate}, #{entity.hopeenddate},
+            #{entity.customerid}, #{entity.samplename}, #{entity.contactor}, #{entity.checkrequire}, #{entity.amt},
+            #{entity.status}, #{entity.remark}, #{entity.edtbyuserid}, #{entity.edttime}, #{entity.telno},
+            #{entity.accepter}, #{entity.orderman}, #{entity.checkers}, #{entity.tocompany})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , OrderId = values(OrderId) , OrderName = values(OrderName) , OrderDate = values(OrderDate) ,
+        HopeEndDate = values(HopeEndDate) , CustomerId = values(CustomerId) , SampleName = values(SampleName) ,
+        Contactor = values(Contactor) , CheckRequire = values(CheckRequire) , Amt = values(Amt) , Status =
+        values(Status) , Remark = values(Remark) , EdtByUserId = values(EdtByUserId) , EdtTime = values(EdtTime) , TelNo
+        = values(TelNo) , Accepter = values(Accepter) , OrderMan = values(OrderMan) , Checkers = values(Checkers) ,
+        ToCompany = values(ToCompany)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.hqt_checkapplyorder
+        <set>
+            OrderId = #{orderid},
+            OrderName = #{ordername},
+            OrderDate = #{orderdate},
+            HopeEndDate = #{hopeenddate},
+            CustomerId = #{customerid},
+            SampleName = #{samplename},
+            Contactor = #{contactor},
+            CheckRequire = #{checkrequire},
+            Amt = #{amt},
+            Status = #{status},
+            Remark = #{remark},
+            EdtByUserId = #{edtbyuserid},
+            EdtTime = #{edttime},
+            TelNo = #{telno},
+            Accepter = #{accepter},
+            OrderMan = #{orderman},
+            Checkers = #{checkers},
+            ToCompany = #{tocompany},
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.hqt_checkapplyorder
+        where Id = #{id}
+    </delete>
+
+</mapper>

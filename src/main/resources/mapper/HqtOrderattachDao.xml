@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.HqtOrderattachDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.HqtOrderattach" id="HqtOrderattachMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="orderid" column="OrderId" jdbcType="VARCHAR"/>
+        <result property="filename" column="FileName" jdbcType="VARCHAR"/>
+        <result property="filepath" column="FilePath" jdbcType="VARCHAR"/>
+        <result property="filetype" column="FileType" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="HqtOrderattachMap">
+        select Id,
+               OrderId,
+               FileName,
+               FilePath,
+               FileType
+        from hiquality.hqt_orderattach
+        where Id = #{id}
+    </select>
+
+    <!--条件查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*) from hiquality.hqt_orderattach
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and OrderId like #{orderid}
+            </if>
+            <if test="filename != null and filename != ''">
+                and FileName like #{filename}
+            </if>
+            <if test="filepath != null and filepath != ''">
+                and FilePath like #{filepath}
+            </if>
+            <if test="filetype != null and filetype != ''">
+                and FileType like #{filetype}
+            </if>
+        </where>
+    </select>
+
+    <!--不等于条件查询记录总数-->
+    <select id="getCountByNotEqual" resultType="int">
+        select count(*) from hiquality.hqt_orderattach
+        <where>
+            <if test="id != null and id != ''">
+                and Id != #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and OrderId != #{orderid}
+            </if>
+            <if test="filename != null and filename != ''">
+                and FileName != #{filename}
+            </if>
+            <if test="filepath != null and filepath != ''">
+                and FilePath != #{filepath}
+            </if>
+            <if test="filetype != null and filetype != ''">
+                and FileType != #{filetype}
+            </if>
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="HqtOrderattachMap">
+        select
+        Id, OrderId, FileName, FilePath, FileType
+        from hiquality.hqt_orderattach
+        <where>
+            <if test="hqtOrderattach.id != null and hqtOrderattach.id != ''">
+                and Id like #{hqtOrderattach.id}
+            </if>
+            <if test="hqtOrderattach.orderid != null and hqtOrderattach.orderid != ''">
+                and OrderId like #{hqtOrderattach.orderid}
+            </if>
+            <if test="hqtOrderattach.filename != null and hqtOrderattach.filename != ''">
+                and FileName like #{hqtOrderattach.filename}
+            </if>
+            <if test="hqtOrderattach.filepath != null and hqtOrderattach.filepath != ''">
+                and FilePath like #{hqtOrderattach.filepath}
+            </if>
+            <if test="hqtOrderattach.filetype != null and hqtOrderattach.filetype != ''">
+                and FileType like #{hqtOrderattach.filetype}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--不等于查询指定行数据-->
+    <select id="queryNotEqualAllByLimit" resultMap="HqtOrderattachMap">
+        select
+        Id, OrderId, FileName, FilePath, FileType
+        from hiquality.hqt_orderattach
+        <where>
+            <if test="hqtOrderattach.id != null and hqtOrderattach.id != ''">
+                and Id != #{hqtOrderattach.id}
+            </if>
+            <if test="hqtOrderattach.orderid != null and hqtOrderattach.orderid != ''">
+                and OrderId != #{hqtOrderattach.orderid}
+            </if>
+            <if test="hqtOrderattach.filename != null and hqtOrderattach.filename != ''">
+                and FileName != #{hqtOrderattach.filename}
+            </if>
+            <if test="hqtOrderattach.filepath != null and hqtOrderattach.filepath != ''">
+                and FilePath != #{hqtOrderattach.filepath}
+            </if>
+            <if test="hqtOrderattach.filetype != null and hqtOrderattach.filetype != ''">
+                and FileType != #{hqtOrderattach.filetype}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="HqtOrderattachMap">
+        select
+        Id, OrderId, FileName, FilePath, FileType
+        from hiquality.hqt_orderattach
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and OrderId = #{orderid}
+            </if>
+            <if test="filename != null and filename != ''">
+                and FileName = #{filename}
+            </if>
+            <if test="filepath != null and filepath != ''">
+                and FilePath = #{filepath}
+            </if>
+            <if test="filetype != null and filetype != ''">
+                and FileType = #{filetype}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="HqtOrderattachMap">
+        select
+        Id, OrderId, FileName, FilePath, FileType
+        from hiquality.hqt_orderattach
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and OrderId like #{orderid}
+            </if>
+            <if test="filename != null and filename != ''">
+                and FileName like #{filename}
+            </if>
+            <if test="filepath != null and filepath != ''">
+                and FilePath like #{filepath}
+            </if>
+            <if test="filetype != null and filetype != ''">
+                and FileType like #{filetype}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="HqtOrderattachMap">
+        select
+        Id, OrderId, FileName, FilePath, FileType
+        from hiquality.hqt_orderattach
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                or OrderId = #{orderid}
+            </if>
+            <if test="filename != null and filename != ''">
+                or FileName = #{filename}
+            </if>
+            <if test="filepath != null and filepath != ''">
+                or FilePath = #{filepath}
+            </if>
+            <if test="filetype != null and filetype != ''">
+                or FileType = #{filetype}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_orderattach(Id, OrderId, FileName, FilePath, FileType)
+        values (#{id}, #{orderid}, #{filename}, #{filepath}, #{filetype})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_orderattach(Id, OrderId, FileName, FilePath, FileType)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.orderid}, #{entity.filename}, #{entity.filepath}, #{entity.filetype})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_orderattach(Id, OrderId, FileName, FilePath, FileType)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.orderid}, #{entity.filename}, #{entity.filepath}, #{entity.filetype})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , OrderId = values(OrderId) , FileName = values(FileName) , FilePath = values(FilePath) ,
+        FileType = values(FileType)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.hqt_orderattach
+        <set>
+            OrderId = #{orderid},
+            FileName = #{filename},
+            FilePath = #{filepath},
+            FileType = #{filetype},
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.hqt_orderattach
+        where Id = #{id}
+    </delete>
+
+</mapper>

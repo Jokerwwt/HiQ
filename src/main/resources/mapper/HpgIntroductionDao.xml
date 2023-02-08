@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.HpgIntroductionDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.HpgIntroduction" id="HpgIntroductionMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="writer" column="Writer" jdbcType="VARCHAR"/>
+        <result property="publisher" column="Publisher" jdbcType="VARCHAR"/>
+        <result property="publishdate" column="PublishDate" jdbcType="TIMESTAMP"/>
+        <result property="content" column="Content" jdbcType="VARCHAR"/>
+        <result property="edtbyuserid" column="EdtByUserId" jdbcType="VARCHAR"/>
+        <result property="edttime" column="EdtTime" jdbcType="TIMESTAMP"/>
+        <result property="viewtotal" column="ViewTotal" jdbcType="INTEGER"/>
+        <result property="status" column="Status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="HpgIntroductionMap">
+        select Id,
+               Writer,
+               Publisher,
+               PublishDate,
+               Content,
+               EdtByUserId,
+               EdtTime,
+               ViewTotal,
+               Status
+        from hiquality.hpg_introduction
+        where Id = #{id}
+    </select>
+
+    <!--条件查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*) from hiquality.hpg_introduction
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="writer != null and writer != ''">
+                and Writer like #{writer}
+            </if>
+            <if test="publisher != null and publisher != ''">
+                and Publisher like #{publisher}
+            </if>
+            <if test="publishdate != null">
+                and PublishDate like #{publishdate}
+            </if>
+            <if test="content != null and content != ''">
+                and Content like #{content}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId like #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime like #{edttime}
+            </if>
+            <if test="viewtotal != null">
+                and ViewTotal like #{viewtotal}
+            </if>
+            <if test="status != null and status != ''">
+                and Status like #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--不等于条件查询记录总数-->
+    <select id="getCountByNotEqual" resultType="int">
+        select count(*) from hiquality.hpg_introduction
+        <where>
+            <if test="id != null and id != ''">
+                and Id != #{id}
+            </if>
+            <if test="writer != null and writer != ''">
+                and Writer != #{writer}
+            </if>
+            <if test="publisher != null and publisher != ''">
+                and Publisher != #{publisher}
+            </if>
+            <if test="publishdate != null">
+                and PublishDate != #{publishdate}
+            </if>
+            <if test="content != null and content != ''">
+                and Content != #{content}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId != #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime != #{edttime}
+            </if>
+            <if test="viewtotal != null">
+                and ViewTotal != #{viewtotal}
+            </if>
+            <if test="status != null and status != ''">
+                and Status != #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="HpgIntroductionMap">
+        select
+        Id, Writer, Publisher, PublishDate, Content, EdtByUserId, EdtTime, ViewTotal, Status
+        from hiquality.hpg_introduction
+        <where>
+            <if test="hpgIntroduction.id != null and hpgIntroduction.id != ''">
+                and Id like #{hpgIntroduction.id}
+            </if>
+            <if test="hpgIntroduction.writer != null and hpgIntroduction.writer != ''">
+                and Writer like #{hpgIntroduction.writer}
+            </if>
+            <if test="hpgIntroduction.publisher != null and hpgIntroduction.publisher != ''">
+                and Publisher like #{hpgIntroduction.publisher}
+            </if>
+            <if test="hpgIntroduction.publishdate != null">
+                and PublishDate like #{hpgIntroduction.publishdate}
+            </if>
+            <if test="hpgIntroduction.content != null and hpgIntroduction.content != ''">
+                and Content like #{hpgIntroduction.content}
+            </if>
+            <if test="hpgIntroduction.edtbyuserid != null and hpgIntroduction.edtbyuserid != ''">
+                and EdtByUserId like #{hpgIntroduction.edtbyuserid}
+            </if>
+            <if test="hpgIntroduction.edttime != null">
+                and EdtTime like #{hpgIntroduction.edttime}
+            </if>
+            <if test="hpgIntroduction.viewtotal != null">
+                and ViewTotal like #{hpgIntroduction.viewtotal}
+            </if>
+            <if test="hpgIntroduction.status != null and hpgIntroduction.status != ''">
+                and Status like #{hpgIntroduction.status}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--不等于查询指定行数据-->
+    <select id="queryNotEqualAllByLimit" resultMap="HpgIntroductionMap">
+        select
+        Id, Writer, Publisher, PublishDate, Content, EdtByUserId, EdtTime, ViewTotal, Status
+        from hiquality.hpg_introduction
+        <where>
+            <if test="hpgIntroduction.id != null and hpgIntroduction.id != ''">
+                and Id != #{hpgIntroduction.id}
+            </if>
+            <if test="hpgIntroduction.writer != null and hpgIntroduction.writer != ''">
+                and Writer != #{hpgIntroduction.writer}
+            </if>
+            <if test="hpgIntroduction.publisher != null and hpgIntroduction.publisher != ''">
+                and Publisher != #{hpgIntroduction.publisher}
+            </if>
+            <if test="hpgIntroduction.publishdate != null">
+                and PublishDate != #{hpgIntroduction.publishdate}
+            </if>
+            <if test="hpgIntroduction.content != null and hpgIntroduction.content != ''">
+                and Content != #{hpgIntroduction.content}
+            </if>
+            <if test="hpgIntroduction.edtbyuserid != null and hpgIntroduction.edtbyuserid != ''">
+                and EdtByUserId != #{hpgIntroduction.edtbyuserid}
+            </if>
+            <if test="hpgIntroduction.edttime != null">
+                and EdtTime != #{hpgIntroduction.edttime}
+            </if>
+            <if test="hpgIntroduction.viewtotal != null">
+                and ViewTotal != #{hpgIntroduction.viewtotal}
+            </if>
+            <if test="hpgIntroduction.status != null and hpgIntroduction.status != ''">
+                and Status != #{hpgIntroduction.status}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="HpgIntroductionMap">
+        select
+        Id, Writer, Publisher, PublishDate, Content, EdtByUserId, EdtTime, ViewTotal, Status
+        from hiquality.hpg_introduction
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="writer != null and writer != ''">
+                and Writer = #{writer}
+            </if>
+            <if test="publisher != null and publisher != ''">
+                and Publisher = #{publisher}
+            </if>
+            <if test="publishdate != null">
+                and PublishDate = #{publishdate}
+            </if>
+            <if test="content != null and content != ''">
+                and Content = #{content}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime = #{edttime}
+            </if>
+            <if test="viewtotal != null">
+                and ViewTotal = #{viewtotal}
+            </if>
+            <if test="status != null and status != ''">
+                and Status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="HpgIntroductionMap">
+        select
+        Id, Writer, Publisher, PublishDate, Content, EdtByUserId, EdtTime, ViewTotal, Status
+        from hiquality.hpg_introduction
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="writer != null and writer != ''">
+                and Writer like #{writer}
+            </if>
+            <if test="publisher != null and publisher != ''">
+                and Publisher like #{publisher}
+            </if>
+            <if test="publishdate != null">
+                and PublishDate like #{publishdate}
+            </if>
+            <if test="content != null and content != ''">
+                and Content like #{content}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId like #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime like #{edttime}
+            </if>
+            <if test="viewtotal != null">
+                and ViewTotal like #{viewtotal}
+            </if>
+            <if test="status != null and status != ''">
+                and Status like #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="HpgIntroductionMap">
+        select
+        Id, Writer, Publisher, PublishDate, Content, EdtByUserId, EdtTime, ViewTotal, Status
+        from hiquality.hpg_introduction
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="writer != null and writer != ''">
+                or Writer = #{writer}
+            </if>
+            <if test="publisher != null and publisher != ''">
+                or Publisher = #{publisher}
+            </if>
+            <if test="publishdate != null">
+                or PublishDate = #{publishdate}
+            </if>
+            <if test="content != null and content != ''">
+                or Content = #{content}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                or EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                or EdtTime = #{edttime}
+            </if>
+            <if test="viewtotal != null">
+                or ViewTotal = #{viewtotal}
+            </if>
+            <if test="status != null and status != ''">
+                or Status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hpg_introduction(Id, Writer, Publisher, PublishDate, Content, EdtByUserId, EdtTime,
+                                               ViewTotal, Status)
+        values (#{id}, #{writer}, #{publisher}, #{publishdate}, #{content}, #{edtbyuserid}, #{edttime}, #{viewtotal},
+                #{status})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hpg_introduction(Id, Writer, Publisher, PublishDate, Content, EdtByUserId, EdtTime,
+        ViewTotal, Status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.writer}, #{entity.publisher}, #{entity.publishdate}, #{entity.content},
+            #{entity.edtbyuserid}, #{entity.edttime}, #{entity.viewtotal}, #{entity.status})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hpg_introduction(Id, Writer, Publisher, PublishDate, Content, EdtByUserId, EdtTime,
+        ViewTotal, Status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.writer}, #{entity.publisher}, #{entity.publishdate}, #{entity.content},
+            #{entity.edtbyuserid}, #{entity.edttime}, #{entity.viewtotal}, #{entity.status})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , Writer = values(Writer) , Publisher = values(Publisher) , PublishDate = values(PublishDate) ,
+        Content = values(Content) , EdtByUserId = values(EdtByUserId) , EdtTime = values(EdtTime) , ViewTotal =
+        values(ViewTotal) , Status = values(Status)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.hpg_introduction
+        <set>
+            Writer = #{writer},
+            Publisher = #{publisher},
+            PublishDate = #{publishdate},
+            Content = #{content},
+            EdtByUserId = #{edtbyuserid},
+            EdtTime = #{edttime},
+            ViewTotal = #{viewtotal},
+            Status = #{status},
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.hpg_introduction
+        where Id = #{id}
+    </delete>
+
+</mapper>

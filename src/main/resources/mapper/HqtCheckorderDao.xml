@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.HqtCheckorderDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.HqtCheckorder" id="HqtCheckorderMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="orderid" column="OrderId" jdbcType="VARCHAR"/>
+        <result property="ordername" column="OrderName" jdbcType="VARCHAR"/>
+        <result property="orderdate" column="OrderDate" jdbcType="TIMESTAMP"/>
+        <result property="hopeenddate" column="HopeEndDate" jdbcType="TIMESTAMP"/>
+        <result property="finisheddate" column="FinishedDate" jdbcType="TIMESTAMP"/>
+        <result property="checkerid" column="CheckerId" jdbcType="VARCHAR"/>
+        <result property="custorderid" column="CustOrderId" jdbcType="VARCHAR"/>
+        <result property="contactor" column="Contactor" jdbcType="VARCHAR"/>
+        <result property="reportexptime" column="ReportExpTime" jdbcType="TIMESTAMP"/>
+        <result property="amt" column="Amt" jdbcType="NUMERIC"/>
+        <result property="payamt" column="PayAmt" jdbcType="NUMERIC"/>
+        <result property="paystatus" column="PayStatus" jdbcType="VARCHAR"/>
+        <result property="invoicestatus" column="InvoiceStatus" jdbcType="VARCHAR"/>
+        <result property="status" column="Status" jdbcType="VARCHAR"/>
+        <result property="invoiceid" column="InvoiceId" jdbcType="VARCHAR"/>
+        <result property="reportid" column="ReportId" jdbcType="VARCHAR"/>
+        <result property="reportenddate" column="ReportEndDate" jdbcType="TIMESTAMP"/>
+        <result property="procrecord" column="ProcRecord" jdbcType="VARCHAR"/>
+        <result property="remark" column="Remark" jdbcType="VARCHAR"/>
+        <result property="edtbyuserid" column="EdtByUserId" jdbcType="VARCHAR"/>
+        <result property="edttime" column="EdtTime" jdbcType="TIMESTAMP"/>
+        <result property="sender" column="Sender" jdbcType="VARCHAR"/>
+        <result property="telno" column="TelNo" jdbcType="VARCHAR"/>
+        <result property="checkresult" column="CheckResult" jdbcType="VARCHAR"/>
+        <result property="accepter" column="Accepter" jdbcType="VARCHAR"/>
+        <result property="payremark" column="PayRemark" jdbcType="VARCHAR"/>
+        <result property="invoiceremark" column="InvoiceRemark" jdbcType="VARCHAR"/>
+        <result property="paydate" column="PayDate" jdbcType="TIMESTAMP"/>
+        <result property="payrecorder" column="PayRecorder" jdbcType="VARCHAR"/>
+        <result property="invoicedate" column="InvoiceDate" jdbcType="TIMESTAMP"/>
+        <result property="invoicerecorder" column="InvoiceRecorder" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="HqtCheckorderMap">
+        select Id,
+               OrderId,
+               OrderName,
+               OrderDate,
+               HopeEndDate,
+               FinishedDate,
+               CheckerId,
+               CustOrderId,
+               Contactor,
+               ReportExpTime,
+               Amt,
+               PayAmt,
+               PayStatus,
+               InvoiceStatus,
+               Status,
+               InvoiceId,
+               ReportId,
+               ReportEndDate,
+               ProcRecord,
+               Remark,
+               EdtByUserId,
+               EdtTime,
+               Sender,
+               TelNo,
+               CheckResult,
+               Accepter,
+               PayRemark,
+               InvoiceRemark,
+               PayDate,
+               PayRecorder,
+               InvoiceDate,
+               InvoiceRecorder
+        from hiquality.hqt_checkorder
+        where Id = #{id}
+    </select>
+
+    <!--条件查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*) from hiquality.hqt_checkorder
+        <where>
+            <if test="hqtCheckorder.id != null and hqtCheckorder.id != ''">
+                and Id REGEXP #{hqtCheckorder.id}
+            </if>
+            <if test="hqtCheckorder.orderid != null and hqtCheckorder.orderid != ''">
+                and OrderId REGEXP #{hqtCheckorder.orderid}
+            </if>
+            <if test="hqtCheckorder.ordername != null and hqtCheckorder.ordername != ''">
+                and OrderName REGEXP #{hqtCheckorder.ordername}
+            </if>
+            <if test="hqtCheckorder.orderdate != null">
+                and OrderDate REGEXP DATE_FORMAT(#{hqtCheckorder.orderdate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.hopeenddate != null">
+                and HopeEndDate REGEXP DATE_FORMAT(#{hqtCheckorder.hopeenddate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.finisheddate != null">
+                and FinishedDate REGEXP DATE_FORMAT(#{hqtCheckorder.finisheddate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.checkerid != null and hqtCheckorder.checkerid != ''">
+                and CheckerId REGEXP #{hqtCheckorder.checkerid}
+            </if>
+            <if test="hqtCheckorder.custorderid != null and hqtCheckorder.custorderid != ''">
+                and CustOrderId REGEXP #{hqtCheckorder.custorderid}
+            </if>
+            <if test="hqtCheckorder.contactor != null and hqtCheckorder.contactor != ''">
+                and Contactor REGEXP #{hqtCheckorder.contactor}
+            </if>
+            <if test="hqtCheckorder.reportexptime != null">
+                and ReportExpTime REGEXP DATE_FORMAT(#{hqtCheckorder.reportexptime},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.amt != null">
+                and Amt REGEXP #{hqtCheckorder.amt}
+            </if>
+            <if test="hqtCheckorder.payamt != null">
+                and PayAmt REGEXP #{hqtCheckorder.payamt}
+            </if>
+            <if test="hqtCheckorder.paystatus != null and hqtCheckorder.paystatus != ''">
+                and PayStatus REGEXP #{hqtCheckorder.paystatus}
+            </if>
+            <if test="hqtCheckorder.invoicestatus != null and hqtCheckorder.invoicestatus != ''">
+                and InvoiceStatus REGEXP #{hqtCheckorder.invoicestatus}
+            </if>
+            <if test="hqtCheckorder.status != null and hqtCheckorder.status != ''">
+                and Status REGEXP #{hqtCheckorder.status}
+            </if>
+            <if test="hqtCheckorder.invoiceid != null and hqtCheckorder.invoiceid != ''">
+                and InvoiceId REGEXP #{hqtCheckorder.invoiceid}
+            </if>
+            <if test="hqtCheckorder.reportid != null and hqtCheckorder.reportid != ''">
+                and ReportId REGEXP #{hqtCheckorder.reportid}
+            </if>
+            <if test="hqtCheckorder.reportenddate != null">
+                and ReportEndDate REGEXP DATE_FORMAT(#{hqtCheckorder.reportenddate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.procrecord != null and hqtCheckorder.procrecord != ''">
+                and ProcRecord REGEXP #{hqtCheckorder.procrecord}
+            </if>
+            <if test="hqtCheckorder.remark != null and hqtCheckorder.remark != ''">
+                and Remark REGEXP #{hqtCheckorder.remark}
+            </if>
+            <if test="hqtCheckorder.edtbyuserid != null and hqtCheckorder.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{hqtCheckorder.edtbyuserid}
+            </if>
+            <if test="hqtCheckorder.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{hqtCheckorder.edttime},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.sender != null and hqtCheckorder.sender != ''">
+                and Sender REGEXP #{hqtCheckorder.sender}
+            </if>
+            <if test="hqtCheckorder.telno != null and hqtCheckorder.telno != ''">
+                and TelNo REGEXP #{hqtCheckorder.telno}
+            </if>
+            <if test="hqtCheckorder.checkresult != null and hqtCheckorder.checkresult != ''">
+                and CheckResult REGEXP #{hqtCheckorder.checkresult}
+            </if>
+            <if test="hqtCheckorder.accepter != null and hqtCheckorder.accepter != ''">
+                and Accepter REGEXP #{hqtCheckorder.accepter}
+            </if>
+            <if test="hqtCheckorder.payremark != null and hqtCheckorder.payremark != ''">
+                and PayRemark REGEXP #{hqtCheckorder.payremark}
+            </if>
+            <if test="hqtCheckorder.invoiceremark != null and hqtCheckorder.invoiceremark != ''">
+                and InvoiceRemark REGEXP #{hqtCheckorder.invoiceremark}
+            </if>
+            <if test="hqtCheckorder.paydate != null">
+                and PayDate REGEXP DATE_FORMAT(#{hqtCheckorder.paydate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.payrecorder != null and hqtCheckorder.payrecorder != ''">
+                and PayRecorder REGEXP #{hqtCheckorder.payrecorder}
+            </if>
+            <if test="hqtCheckorder.invoicedate != null">
+                and InvoiceDate REGEXP DATE_FORMAT(#{hqtCheckorder.invoicedate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.invoicerecorder != null and hqtCheckorder.invoicerecorder != ''">
+                and InvoiceRecorder REGEXP #{hqtCheckorder.invoicerecorder}
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--不等于条件查询记录总数-->
+    <select id="getCountByNotEqual" resultType="int">
+        select count(*) from hiquality.hqt_checkorder
+        <where>
+            <if test="id != null and id != ''">
+                and Id != #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and OrderId != #{orderid}
+            </if>
+            <if test="ordername != null and ordername != ''">
+                and OrderName != #{ordername}
+            </if>
+            <if test="orderdate != null">
+                and OrderDate != #{orderdate}
+            </if>
+            <if test="hopeenddate != null">
+                and HopeEndDate != #{hopeenddate}
+            </if>
+            <if test="finisheddate != null">
+                and FinishedDate != #{finisheddate}
+            </if>
+            <if test="checkerid != null and checkerid != ''">
+                and CheckerId != #{checkerid}
+            </if>
+            <if test="custorderid != null and custorderid != ''">
+                and CustOrderId != #{custorderid}
+            </if>
+            <if test="contactor != null and contactor != ''">
+                and Contactor != #{contactor}
+            </if>
+            <if test="reportexptime != null">
+                and ReportExpTime != #{reportexptime}
+            </if>
+            <if test="amt != null">
+                and Amt != #{amt}
+            </if>
+            <if test="payamt != null">
+                and PayAmt != #{payamt}
+            </if>
+            <if test="paystatus != null and paystatus != ''">
+                and PayStatus != #{paystatus}
+            </if>
+            <if test="invoicestatus != null and invoicestatus != ''">
+                and InvoiceStatus != #{invoicestatus}
+            </if>
+            <if test="status != null and status != ''">
+                and Status != #{status}
+            </if>
+            <if test="invoiceid != null and invoiceid != ''">
+                and InvoiceId != #{invoiceid}
+            </if>
+            <if test="reportid != null and reportid != ''">
+                and ReportId != #{reportid}
+            </if>
+            <if test="reportenddate != null">
+                and ReportEndDate != #{reportenddate}
+            </if>
+            <if test="procrecord != null and procrecord != ''">
+                and ProcRecord != #{procrecord}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark != #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId != #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime != #{edttime}
+            </if>
+            <if test="sender != null and sender != ''">
+                and Sender != #{sender}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo != #{telno}
+            </if>
+            <if test="checkresult != null and checkresult != ''">
+                and CheckResult != #{checkresult}
+            </if>
+            <if test="accepter != null and accepter != ''">
+                and Accepter != #{accepter}
+            </if>
+            <if test="payremark != null and payremark != ''">
+                and PayRemark != #{payremark}
+            </if>
+            <if test="invoiceremark != null and invoiceremark != ''">
+                and InvoiceRemark != #{invoiceremark}
+            </if>
+            <if test="paydate != null">
+                and PayDate != #{paydate}
+            </if>
+            <if test="payrecorder != null and payrecorder != ''">
+                and PayRecorder != #{payrecorder}
+            </if>
+            <if test="invoicedate != null">
+                and InvoiceDate != #{invoicedate}
+            </if>
+            <if test="invoicerecorder != null and invoicerecorder != ''">
+                and InvoiceRecorder != #{invoicerecorder}
+            </if>
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="HqtCheckorderMap">
+        select
+        Id, OrderId, OrderName, OrderDate, HopeEndDate, FinishedDate, CheckerId, CustOrderId, Contactor, ReportExpTime,
+        Amt, PayAmt, PayStatus, InvoiceStatus, Status, InvoiceId, ReportId, ReportEndDate, ProcRecord, Remark,
+        EdtByUserId, EdtTime, Sender, TelNo, CheckResult, Accepter, PayRemark, InvoiceRemark, PayDate, PayRecorder,
+        InvoiceDate, InvoiceRecorder
+        from hiquality.hqt_checkorder
+        <where>
+            <if test="hqtCheckorder.id != null and hqtCheckorder.id != ''">
+                and Id REGEXP #{hqtCheckorder.id}
+            </if>
+            <if test="hqtCheckorder.orderid != null and hqtCheckorder.orderid != ''">
+                and OrderId REGEXP #{hqtCheckorder.orderid}
+            </if>
+            <if test="hqtCheckorder.ordername != null and hqtCheckorder.ordername != ''">
+                and OrderName REGEXP #{hqtCheckorder.ordername}
+            </if>
+            <if test="hqtCheckorder.orderdate != null">
+                and OrderDate REGEXP DATE_FORMAT(#{hqtCheckorder.orderdate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.hopeenddate != null">
+                and HopeEndDate REGEXP DATE_FORMAT(#{hqtCheckorder.hopeenddate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.finisheddate != null">
+                and FinishedDate REGEXP DATE_FORMAT(#{hqtCheckorder.finisheddate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.checkerid != null and hqtCheckorder.checkerid != ''">
+                and CheckerId REGEXP #{hqtCheckorder.checkerid}
+            </if>
+            <if test="hqtCheckorder.custorderid != null and hqtCheckorder.custorderid != ''">
+                and CustOrderId REGEXP #{hqtCheckorder.custorderid}
+            </if>
+            <if test="hqtCheckorder.contactor != null and hqtCheckorder.contactor != ''">
+                and Contactor REGEXP #{hqtCheckorder.contactor}
+            </if>
+            <if test="hqtCheckorder.reportexptime != null">
+                and ReportExpTime REGEXP DATE_FORMAT(#{hqtCheckorder.reportexptime},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.amt != null">
+                and Amt REGEXP #{hqtCheckorder.amt}
+            </if>
+            <if test="hqtCheckorder.payamt != null">
+                and PayAmt REGEXP #{hqtCheckorder.payamt}
+            </if>
+            <if test="hqtCheckorder.paystatus != null and hqtCheckorder.paystatus != ''">
+                and PayStatus REGEXP #{hqtCheckorder.paystatus}
+            </if>
+            <if test="hqtCheckorder.invoicestatus != null and hqtCheckorder.invoicestatus != ''">
+                and InvoiceStatus REGEXP #{hqtCheckorder.invoicestatus}
+            </if>
+            <if test="hqtCheckorder.status != null and hqtCheckorder.status != ''">
+                and Status REGEXP #{hqtCheckorder.status}
+            </if>
+            <if test="hqtCheckorder.invoiceid != null and hqtCheckorder.invoiceid != ''">
+                and InvoiceId REGEXP #{hqtCheckorder.invoiceid}
+            </if>
+            <if test="hqtCheckorder.reportid != null and hqtCheckorder.reportid != ''">
+                and ReportId REGEXP #{hqtCheckorder.reportid}
+            </if>
+            <if test="hqtCheckorder.reportenddate != null">
+                and ReportEndDate REGEXP DATE_FORMAT(#{hqtCheckorder.reportenddate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.procrecord != null and hqtCheckorder.procrecord != ''">
+                and ProcRecord REGEXP #{hqtCheckorder.procrecord}
+            </if>
+            <if test="hqtCheckorder.remark != null and hqtCheckorder.remark != ''">
+                and Remark REGEXP #{hqtCheckorder.remark}
+            </if>
+            <if test="hqtCheckorder.edtbyuserid != null and hqtCheckorder.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{hqtCheckorder.edtbyuserid}
+            </if>
+            <if test="hqtCheckorder.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{hqtCheckorder.edttime},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.sender != null and hqtCheckorder.sender != ''">
+                and Sender REGEXP #{hqtCheckorder.sender}
+            </if>
+            <if test="hqtCheckorder.telno != null and hqtCheckorder.telno != ''">
+                and TelNo REGEXP #{hqtCheckorder.telno}
+            </if>
+            <if test="hqtCheckorder.checkresult != null and hqtCheckorder.checkresult != ''">
+                and CheckResult REGEXP #{hqtCheckorder.checkresult}
+            </if>
+            <if test="hqtCheckorder.accepter != null and hqtCheckorder.accepter != ''">
+                and Accepter REGEXP #{hqtCheckorder.accepter}
+            </if>
+            <if test="hqtCheckorder.payremark != null and hqtCheckorder.payremark != ''">
+                and PayRemark REGEXP #{hqtCheckorder.payremark}
+            </if>
+            <if test="hqtCheckorder.invoiceremark != null and hqtCheckorder.invoiceremark != ''">
+                and InvoiceRemark REGEXP #{hqtCheckorder.invoiceremark}
+            </if>
+            <if test="hqtCheckorder.paydate != null">
+                and PayDate REGEXP DATE_FORMAT(#{hqtCheckorder.paydate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.payrecorder != null and hqtCheckorder.payrecorder != ''">
+                and PayRecorder REGEXP #{hqtCheckorder.payrecorder}
+            </if>
+            <if test="hqtCheckorder.invoicedate != null">
+                and InvoiceDate REGEXP DATE_FORMAT(#{hqtCheckorder.invoicedate},'%y-%m-%d')
+            </if>
+            <if test="hqtCheckorder.invoicerecorder != null and hqtCheckorder.invoicerecorder != ''">
+                and InvoiceRecorder REGEXP #{hqtCheckorder.invoicerecorder}
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--不等于查询指定行数据-->
+    <select id="queryNotEqualAllByLimit" resultMap="HqtCheckorderMap">
+        select
+        Id, OrderId, OrderName, OrderDate, HopeEndDate, FinishedDate, CheckerId, CustOrderId, Contactor, ReportExpTime,
+        Amt, PayAmt, PayStatus, InvoiceStatus, Status, InvoiceId, ReportId, ReportEndDate, ProcRecord, Remark,
+        EdtByUserId, EdtTime, Sender, TelNo, CheckResult, Accepter, PayRemark, InvoiceRemark, PayDate, PayRecorder,
+        InvoiceDate, InvoiceRecorder
+        from hiquality.hqt_checkorder
+        <where>
+            <if test="hqtCheckorder.id != null and hqtCheckorder.id != ''">
+                and Id != #{hqtCheckorder.id}
+            </if>
+            <if test="hqtCheckorder.orderid != null and hqtCheckorder.orderid != ''">
+                and OrderId != #{hqtCheckorder.orderid}
+            </if>
+            <if test="hqtCheckorder.ordername != null and hqtCheckorder.ordername != ''">
+                and OrderName != #{hqtCheckorder.ordername}
+            </if>
+            <if test="hqtCheckorder.orderdate != null">
+                and OrderDate != #{hqtCheckorder.orderdate}
+            </if>
+            <if test="hqtCheckorder.hopeenddate != null">
+                and HopeEndDate != #{hqtCheckorder.hopeenddate}
+            </if>
+            <if test="hqtCheckorder.finisheddate != null">
+                and FinishedDate != #{hqtCheckorder.finisheddate}
+            </if>
+            <if test="hqtCheckorder.checkerid != null and hqtCheckorder.checkerid != ''">
+                and CheckerId != #{hqtCheckorder.checkerid}
+            </if>
+            <if test="hqtCheckorder.custorderid != null and hqtCheckorder.custorderid != ''">
+                and CustOrderId != #{hqtCheckorder.custorderid}
+            </if>
+            <if test="hqtCheckorder.contactor != null and hqtCheckorder.contactor != ''">
+                and Contactor != #{hqtCheckorder.contactor}
+            </if>
+            <if test="hqtCheckorder.reportexptime != null">
+                and ReportExpTime != #{hqtCheckorder.reportexptime}
+            </if>
+            <if test="hqtCheckorder.amt != null">
+                and Amt != #{hqtCheckorder.amt}
+            </if>
+            <if test="hqtCheckorder.payamt != null">
+                and PayAmt != #{hqtCheckorder.payamt}
+            </if>
+            <if test="hqtCheckorder.paystatus != null and hqtCheckorder.paystatus != ''">
+                and PayStatus != #{hqtCheckorder.paystatus}
+            </if>
+            <if test="hqtCheckorder.invoicestatus != null and hqtCheckorder.invoicestatus != ''">
+                and InvoiceStatus != #{hqtCheckorder.invoicestatus}
+            </if>
+            <if test="hqtCheckorder.status != null and hqtCheckorder.status != ''">
+                and Status != #{hqtCheckorder.status}
+            </if>
+            <if test="hqtCheckorder.invoiceid != null and hqtCheckorder.invoiceid != ''">
+                and InvoiceId != #{hqtCheckorder.invoiceid}
+            </if>
+            <if test="hqtCheckorder.reportid != null and hqtCheckorder.reportid != ''">
+                and ReportId != #{hqtCheckorder.reportid}
+            </if>
+            <if test="hqtCheckorder.reportenddate != null">
+                and ReportEndDate != #{hqtCheckorder.reportenddate}
+            </if>
+            <if test="hqtCheckorder.procrecord != null and hqtCheckorder.procrecord != ''">
+                and ProcRecord != #{hqtCheckorder.procrecord}
+            </if>
+            <if test="hqtCheckorder.remark != null and hqtCheckorder.remark != ''">
+                and Remark != #{hqtCheckorder.remark}
+            </if>
+            <if test="hqtCheckorder.edtbyuserid != null and hqtCheckorder.edtbyuserid != ''">
+                and EdtByUserId != #{hqtCheckorder.edtbyuserid}
+            </if>
+            <if test="hqtCheckorder.edttime != null">
+                and EdtTime != #{hqtCheckorder.edttime}
+            </if>
+            <if test="hqtCheckorder.sender != null and hqtCheckorder.sender != ''">
+                and Sender != #{hqtCheckorder.sender}
+            </if>
+            <if test="hqtCheckorder.telno != null and hqtCheckorder.telno != ''">
+                and TelNo != #{hqtCheckorder.telno}
+            </if>
+            <if test="hqtCheckorder.checkresult != null and hqtCheckorder.checkresult != ''">
+                and CheckResult != #{hqtCheckorder.checkresult}
+            </if>
+            <if test="hqtCheckorder.accepter != null and hqtCheckorder.accepter != ''">
+                and Accepter != #{hqtCheckorder.accepter}
+            </if>
+            <if test="hqtCheckorder.payremark != null and hqtCheckorder.payremark != ''">
+                and PayRemark != #{hqtCheckorder.payremark}
+            </if>
+            <if test="hqtCheckorder.invoiceremark != null and hqtCheckorder.invoiceremark != ''">
+                and InvoiceRemark != #{hqtCheckorder.invoiceremark}
+            </if>
+            <if test="hqtCheckorder.paydate != null">
+                and PayDate != #{hqtCheckorder.paydate}
+            </if>
+            <if test="hqtCheckorder.payrecorder != null and hqtCheckorder.payrecorder != ''">
+                and PayRecorder != #{hqtCheckorder.payrecorder}
+            </if>
+            <if test="hqtCheckorder.invoicedate != null">
+                and InvoiceDate != #{hqtCheckorder.invoicedate}
+            </if>
+            <if test="hqtCheckorder.invoicerecorder != null and hqtCheckorder.invoicerecorder != ''">
+                and InvoiceRecorder != #{hqtCheckorder.invoicerecorder}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="HqtCheckorderMap">
+        select
+        Id, OrderId, OrderName, OrderDate, HopeEndDate, FinishedDate, CheckerId, CustOrderId, Contactor, ReportExpTime,
+        Amt, PayAmt, PayStatus, InvoiceStatus, Status, InvoiceId, ReportId, ReportEndDate, ProcRecord, Remark,
+        EdtByUserId, EdtTime, Sender, TelNo, CheckResult, Accepter, PayRemark, InvoiceRemark, PayDate, PayRecorder,
+        InvoiceDate, InvoiceRecorder
+        from hiquality.hqt_checkorder
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and OrderId = #{orderid}
+            </if>
+            <if test="ordername != null and ordername != ''">
+                and OrderName = #{ordername}
+            </if>
+            <if test="orderdate != null">
+                and OrderDate = #{orderdate}
+            </if>
+            <if test="hopeenddate != null">
+                and HopeEndDate = #{hopeenddate}
+            </if>
+            <if test="finisheddate != null">
+                and FinishedDate = #{finisheddate}
+            </if>
+            <if test="checkerid != null and checkerid != ''">
+                and CheckerId = #{checkerid}
+            </if>
+            <if test="custorderid != null and custorderid != ''">
+                and CustOrderId = #{custorderid}
+            </if>
+            <if test="contactor != null and contactor != ''">
+                and Contactor = #{contactor}
+            </if>
+            <if test="reportexptime != null">
+                and ReportExpTime = #{reportexptime}
+            </if>
+            <if test="amt != null">
+                and Amt = #{amt}
+            </if>
+            <if test="payamt != null">
+                and PayAmt = #{payamt}
+            </if>
+            <if test="paystatus != null and paystatus != ''">
+                and PayStatus = #{paystatus}
+            </if>
+            <if test="invoicestatus != null and invoicestatus != ''">
+                and InvoiceStatus = #{invoicestatus}
+            </if>
+            <if test="status != null and status != ''">
+                and Status = #{status}
+            </if>
+            <if test="invoiceid != null and invoiceid != ''">
+                and InvoiceId = #{invoiceid}
+            </if>
+            <if test="reportid != null and reportid != ''">
+                and ReportId = #{reportid}
+            </if>
+            <if test="reportenddate != null">
+                and ReportEndDate = #{reportenddate}
+            </if>
+            <if test="procrecord != null and procrecord != ''">
+                and ProcRecord = #{procrecord}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark = #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime = #{edttime}
+            </if>
+            <if test="sender != null and sender != ''">
+                and Sender = #{sender}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo = #{telno}
+            </if>
+            <if test="checkresult != null and checkresult != ''">
+                and CheckResult = #{checkresult}
+            </if>
+            <if test="accepter != null and accepter != ''">
+                and Accepter = #{accepter}
+            </if>
+            <if test="payremark != null and payremark != ''">
+                and PayRemark = #{payremark}
+            </if>
+            <if test="invoiceremark != null and invoiceremark != ''">
+                and InvoiceRemark = #{invoiceremark}
+            </if>
+            <if test="paydate != null">
+                and PayDate = #{paydate}
+            </if>
+            <if test="payrecorder != null and payrecorder != ''">
+                and PayRecorder = #{payrecorder}
+            </if>
+            <if test="invoicedate != null">
+                and InvoiceDate = #{invoicedate}
+            </if>
+            <if test="invoicerecorder != null and invoicerecorder != ''">
+                and InvoiceRecorder = #{invoicerecorder}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="HqtCheckorderMap">
+        select
+        Id, OrderId, OrderName, OrderDate, HopeEndDate, FinishedDate, CheckerId, CustOrderId, Contactor, ReportExpTime,
+        Amt, PayAmt, PayStatus, InvoiceStatus, Status, InvoiceId, ReportId, ReportEndDate, ProcRecord, Remark,
+        EdtByUserId, EdtTime, Sender, TelNo, CheckResult, Accepter, PayRemark, InvoiceRemark, PayDate, PayRecorder,
+        InvoiceDate, InvoiceRecorder
+        from hiquality.hqt_checkorder
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and OrderId like #{orderid}
+            </if>
+            <if test="ordername != null and ordername != ''">
+                and OrderName like #{ordername}
+            </if>
+            <if test="orderdate != null">
+                and OrderDate like #{orderdate}
+            </if>
+            <if test="hopeenddate != null">
+                and HopeEndDate like #{hopeenddate}
+            </if>
+            <if test="finisheddate != null">
+                and FinishedDate like #{finisheddate}
+            </if>
+            <if test="checkerid != null and checkerid != ''">
+                and CheckerId like #{checkerid}
+            </if>
+            <if test="custorderid != null and custorderid != ''">
+                and CustOrderId like #{custorderid}
+            </if>
+            <if test="contactor != null and contactor != ''">
+                and Contactor like #{contactor}
+            </if>
+            <if test="reportexptime != null">
+                and ReportExpTime like #{reportexptime}
+            </if>
+            <if test="amt != null">
+                and Amt like #{amt}
+            </if>
+            <if test="payamt != null">
+                and PayAmt like #{payamt}
+            </if>
+            <if test="paystatus != null and paystatus != ''">
+                and PayStatus like #{paystatus}
+            </if>
+            <if test="invoicestatus != null and invoicestatus != ''">
+                and InvoiceStatus like #{invoicestatus}
+            </if>
+            <if test="status != null and status != ''">
+                and Status like #{status}
+            </if>
+            <if test="invoiceid != null and invoiceid != ''">
+                and InvoiceId like #{invoiceid}
+            </if>
+            <if test="reportid != null and reportid != ''">
+                and ReportId like #{reportid}
+            </if>
+            <if test="reportenddate != null">
+                and ReportEndDate like #{reportenddate}
+            </if>
+            <if test="procrecord != null and procrecord != ''">
+                and ProcRecord like #{procrecord}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark like #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId like #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime like #{edttime}
+            </if>
+            <if test="sender != null and sender != ''">
+                and Sender like #{sender}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo like #{telno}
+            </if>
+            <if test="checkresult != null and checkresult != ''">
+                and CheckResult like #{checkresult}
+            </if>
+            <if test="accepter != null and accepter != ''">
+                and Accepter like #{accepter}
+            </if>
+            <if test="payremark != null and payremark != ''">
+                and PayRemark like #{payremark}
+            </if>
+            <if test="invoiceremark != null and invoiceremark != ''">
+                and InvoiceRemark like #{invoiceremark}
+            </if>
+            <if test="paydate != null">
+                and PayDate like #{paydate}
+            </if>
+            <if test="payrecorder != null and payrecorder != ''">
+                and PayRecorder like #{payrecorder}
+            </if>
+            <if test="invoicedate != null">
+                and InvoiceDate like #{invoicedate}
+            </if>
+            <if test="invoicerecorder != null and invoicerecorder != ''">
+                and InvoiceRecorder like #{invoicerecorder}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="HqtCheckorderMap">
+        select
+        Id, OrderId, OrderName, OrderDate, HopeEndDate, FinishedDate, CheckerId, CustOrderId, Contactor, ReportExpTime,
+        Amt, PayAmt, PayStatus, InvoiceStatus, Status, InvoiceId, ReportId, ReportEndDate, ProcRecord, Remark,
+        EdtByUserId, EdtTime, Sender, TelNo, CheckResult, Accepter, PayRemark, InvoiceRemark, PayDate, PayRecorder,
+        InvoiceDate, InvoiceRecorder
+        from hiquality.hqt_checkorder
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                or OrderId = #{orderid}
+            </if>
+            <if test="ordername != null and ordername != ''">
+                or OrderName = #{ordername}
+            </if>
+            <if test="orderdate != null">
+                or OrderDate = #{orderdate}
+            </if>
+            <if test="hopeenddate != null">
+                or HopeEndDate = #{hopeenddate}
+            </if>
+            <if test="finisheddate != null">
+                or FinishedDate = #{finisheddate}
+            </if>
+            <if test="checkerid != null and checkerid != ''">
+                or CheckerId = #{checkerid}
+            </if>
+            <if test="custorderid != null and custorderid != ''">
+                or CustOrderId = #{custorderid}
+            </if>
+            <if test="contactor != null and contactor != ''">
+                or Contactor = #{contactor}
+            </if>
+            <if test="reportexptime != null">
+                or ReportExpTime = #{reportexptime}
+            </if>
+            <if test="amt != null">
+                or Amt = #{amt}
+            </if>
+            <if test="payamt != null">
+                or PayAmt = #{payamt}
+            </if>
+            <if test="paystatus != null and paystatus != ''">
+                or PayStatus = #{paystatus}
+            </if>
+            <if test="invoicestatus != null and invoicestatus != ''">
+                or InvoiceStatus = #{invoicestatus}
+            </if>
+            <if test="status != null and status != ''">
+                or Status = #{status}
+            </if>
+            <if test="invoiceid != null and invoiceid != ''">
+                or InvoiceId = #{invoiceid}
+            </if>
+            <if test="reportid != null and reportid != ''">
+                or ReportId = #{reportid}
+            </if>
+            <if test="reportenddate != null">
+                or ReportEndDate = #{reportenddate}
+            </if>
+            <if test="procrecord != null and procrecord != ''">
+                or ProcRecord = #{procrecord}
+            </if>
+            <if test="remark != null and remark != ''">
+                or Remark = #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                or EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                or EdtTime = #{edttime}
+            </if>
+            <if test="sender != null and sender != ''">
+                or Sender = #{sender}
+            </if>
+            <if test="telno != null and telno != ''">
+                or TelNo = #{telno}
+            </if>
+            <if test="checkresult != null and checkresult != ''">
+                or CheckResult = #{checkresult}
+            </if>
+            <if test="accepter != null and accepter != ''">
+                or Accepter = #{accepter}
+            </if>
+            <if test="payremark != null and payremark != ''">
+                or PayRemark = #{payremark}
+            </if>
+            <if test="invoiceremark != null and invoiceremark != ''">
+                or InvoiceRemark = #{invoiceremark}
+            </if>
+            <if test="paydate != null">
+                or PayDate = #{paydate}
+            </if>
+            <if test="payrecorder != null and payrecorder != ''">
+                or PayRecorder = #{payrecorder}
+            </if>
+            <if test="invoicedate != null">
+                or InvoiceDate = #{invoicedate}
+            </if>
+            <if test="invoicerecorder != null and invoicerecorder != ''">
+                or InvoiceRecorder = #{invoicerecorder}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_checkorder(Id, OrderId, OrderName, OrderDate, HopeEndDate, FinishedDate, CheckerId,
+                                             CustOrderId, Contactor, ReportExpTime, Amt, PayAmt, PayStatus,
+                                             InvoiceStatus, Status, InvoiceId, ReportId, ReportEndDate, ProcRecord,
+                                             Remark, EdtByUserId, EdtTime, Sender, TelNo, CheckResult, Accepter,
+                                             PayRemark, InvoiceRemark, PayDate, PayRecorder, InvoiceDate,
+                                             InvoiceRecorder)
+        values (#{id}, #{orderid}, #{ordername}, #{orderdate}, #{hopeenddate}, #{finisheddate}, #{checkerid},
+                #{custorderid}, #{contactor}, #{reportexptime}, #{amt}, #{payamt}, #{paystatus}, #{invoicestatus},
+                #{status}, #{invoiceid}, #{reportid}, #{reportenddate}, #{procrecord}, #{remark}, #{edtbyuserid},
+                #{edttime}, #{sender}, #{telno}, #{checkresult}, #{accepter}, #{payremark}, #{invoiceremark},
+                #{paydate}, #{payrecorder}, #{invoicedate}, #{invoicerecorder})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_checkorder(Id, OrderId, OrderName, OrderDate, HopeEndDate, FinishedDate, CheckerId,
+        CustOrderId, Contactor, ReportExpTime, Amt, PayAmt, PayStatus, InvoiceStatus, Status, InvoiceId, ReportId,
+        ReportEndDate, ProcRecord, Remark, EdtByUserId, EdtTime, Sender, TelNo, CheckResult, Accepter, PayRemark,
+        InvoiceRemark, PayDate, PayRecorder, InvoiceDate, InvoiceRecorder)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.orderid}, #{entity.ordername}, #{entity.orderdate}, #{entity.hopeenddate},
+            #{entity.finisheddate}, #{entity.checkerid}, #{entity.custorderid}, #{entity.contactor},
+            #{entity.reportexptime}, #{entity.amt}, #{entity.payamt}, #{entity.paystatus}, #{entity.invoicestatus},
+            #{entity.status}, #{entity.invoiceid}, #{entity.reportid}, #{entity.reportenddate}, #{entity.procrecord},
+            #{entity.remark}, #{entity.edtbyuserid}, #{entity.edttime}, #{entity.sender}, #{entity.telno},
+            #{entity.checkresult}, #{entity.accepter}, #{entity.payremark}, #{entity.invoiceremark}, #{entity.paydate},
+            #{entity.payrecorder}, #{entity.invoicedate}, #{entity.invoicerecorder})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.hqt_checkorder(Id, OrderId, OrderName, OrderDate, HopeEndDate, FinishedDate, CheckerId,
+        CustOrderId, Contactor, ReportExpTime, Amt, PayAmt, PayStatus, InvoiceStatus, Status, InvoiceId, ReportId,
+        ReportEndDate, ProcRecord, Remark, EdtByUserId, EdtTime, Sender, TelNo, CheckResult, Accepter, PayRemark,
+        InvoiceRemark, PayDate, PayRecorder, InvoiceDate, InvoiceRecorder)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.orderid}, #{entity.ordername}, #{entity.orderdate}, #{entity.hopeenddate},
+            #{entity.finisheddate}, #{entity.checkerid}, #{entity.custorderid}, #{entity.contactor},
+            #{entity.reportexptime}, #{entity.amt}, #{entity.payamt}, #{entity.paystatus}, #{entity.invoicestatus},
+            #{entity.status}, #{entity.invoiceid}, #{entity.reportid}, #{entity.reportenddate}, #{entity.procrecord},
+            #{entity.remark}, #{entity.edtbyuserid}, #{entity.edttime}, #{entity.sender}, #{entity.telno},
+            #{entity.checkresult}, #{entity.accepter}, #{entity.payremark}, #{entity.invoiceremark}, #{entity.paydate},
+            #{entity.payrecorder}, #{entity.invoicedate}, #{entity.invoicerecorder})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , OrderId = values(OrderId) , OrderName = values(OrderName) , OrderDate = values(OrderDate) ,
+        HopeEndDate = values(HopeEndDate) , FinishedDate = values(FinishedDate) , CheckerId = values(CheckerId) ,
+        CustOrderId = values(CustOrderId) , Contactor = values(Contactor) , ReportExpTime = values(ReportExpTime) , Amt
+        = values(Amt) , PayAmt = values(PayAmt) , PayStatus = values(PayStatus) , InvoiceStatus = values(InvoiceStatus)
+        , Status = values(Status) , InvoiceId = values(InvoiceId) , ReportId = values(ReportId) , ReportEndDate =
+        values(ReportEndDate) , ProcRecord = values(ProcRecord) , Remark = values(Remark) , EdtByUserId =
+        values(EdtByUserId) , EdtTime = values(EdtTime) , Sender = values(Sender) , TelNo = values(TelNo) , CheckResult
+        = values(CheckResult) , Accepter = values(Accepter) , PayRemark = values(PayRemark) , InvoiceRemark =
+        values(InvoiceRemark) , PayDate = values(PayDate) , PayRecorder = values(PayRecorder) , InvoiceDate =
+        values(InvoiceDate) , InvoiceRecorder = values(InvoiceRecorder)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.hqt_checkorder
+        <set>
+            OrderId = #{orderid},
+            OrderName = #{ordername},
+            OrderDate = #{orderdate},
+            HopeEndDate = #{hopeenddate},
+            FinishedDate = #{finisheddate},
+            CheckerId = #{checkerid},
+            CustOrderId = #{custorderid},
+            Contactor = #{contactor},
+            ReportExpTime = #{reportexptime},
+            Amt = #{amt},
+            PayAmt = #{payamt},
+            PayStatus = #{paystatus},
+            InvoiceStatus = #{invoicestatus},
+            Status = #{status},
+            InvoiceId = #{invoiceid},
+            ReportId = #{reportid},
+            ReportEndDate = #{reportenddate},
+            ProcRecord = #{procrecord},
+            Remark = #{remark},
+            EdtByUserId = #{edtbyuserid},
+            EdtTime = #{edttime},
+            Sender = #{sender},
+            TelNo = #{telno},
+            CheckResult = #{checkresult},
+            Accepter = #{accepter},
+            PayRemark = #{payremark},
+            InvoiceRemark = #{invoiceremark},
+            PayDate = #{paydate},
+            PayRecorder = #{payrecorder},
+            InvoiceDate = #{invoicedate},
+            InvoiceRecorder = #{invoicerecorder},
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.hqt_checkorder
+        where Id = #{id}
+    </delete>
+
+</mapper>

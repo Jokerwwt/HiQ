@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.SmtSyslogDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.SmtSyslog" id="SmtSyslogMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="userid" column="UserId" jdbcType="VARCHAR"/>
+        <result property="menuid" column="MenuId" jdbcType="VARCHAR"/>
+        <result property="operatetime" column="OperateTime" jdbcType="TIMESTAMP"/>
+        <result property="ipaddress" column="IpAddress" jdbcType="VARCHAR"/>
+        <result property="operate" column="Operate" jdbcType="VARCHAR"/>
+        <result property="browserversion" column="BrowserVersion" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SmtSyslogMap">
+        select Id,
+               UserId,
+               MenuId,
+               OperateTime,
+               IpAddress,
+               Operate,
+               BrowserVersion
+        from hiquality.smt_syslog
+        where Id = #{id}
+    </select>
+
+    <!--条件查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*) from hiquality.smt_syslog
+        <where>
+            <if test="smtSyslog.id != null and smtSyslog.id != ''">
+                and Id REGEXP #{smtSyslog.id}
+            </if>
+            <if test="smtSyslog.userid != null and smtSyslog.userid != ''">
+                and UserId REGEXP #{smtSyslog.userid}
+            </if>
+            <if test="smtSyslog.menuid != null and smtSyslog.menuid != ''">
+                and MenuId REGEXP #{smtSyslog.menuid}
+            </if>
+            <if test="smtSyslog.operatetime != null">
+                and OperateTime REGEXP DATE_FORMAT(#{smtSyslog.operatetime},'%y-%m-%d')
+            </if>
+            <if test="smtSyslog.ipaddress != null and smtSyslog.ipaddress != ''">
+                and IpAddress REGEXP #{smtSyslog.ipaddress}
+            </if>
+            <if test="smtSyslog.operate != null and smtSyslog.operate != ''">
+                and Operate REGEXP #{smtSyslog.operate}
+            </if>
+            <if test="smtSyslog.browserversion != null and smtSyslog.browserversion != ''">
+                and BrowserVersion REGEXP #{smtSyslog.browserversion}
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--不等于条件查询记录总数-->
+    <select id="getCountByNotEqual" resultType="int">
+        select count(*) from hiquality.smt_syslog
+        <where>
+            <if test="id != null and id != ''">
+                and Id != #{id}
+            </if>
+            <if test="userid != null and userid != ''">
+                and UserId != #{userid}
+            </if>
+            <if test="menuid != null and menuid != ''">
+                and MenuId != #{menuid}
+            </if>
+            <if test="operatetime != null">
+                and OperateTime != #{operatetime}
+            </if>
+            <if test="ipaddress != null and ipaddress != ''">
+                and IpAddress != #{ipaddress}
+            </if>
+            <if test="operate != null and operate != ''">
+                and Operate != #{operate}
+            </if>
+            <if test="browserversion != null and browserversion != ''">
+                and BrowserVersion != #{browserversion}
+            </if>
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SmtSyslogMap">
+        select
+        Id, UserId, MenuId, OperateTime, IpAddress, Operate, BrowserVersion
+        from hiquality.smt_syslog
+        <where>
+            <if test="smtSyslog.id != null and smtSyslog.id != ''">
+                and Id REGEXP #{smtSyslog.id}
+            </if>
+            <if test="smtSyslog.userid != null and smtSyslog.userid != ''">
+                and UserId REGEXP #{smtSyslog.userid}
+            </if>
+            <if test="smtSyslog.menuid != null and smtSyslog.menuid != ''">
+                and MenuId REGEXP #{smtSyslog.menuid}
+            </if>
+            <if test="smtSyslog.operatetime != null">
+                and OperateTime REGEXP DATE_FORMAT(#{smtSyslog.operatetime},'%y-%m-%d')
+            </if>
+            <if test="smtSyslog.ipaddress != null and smtSyslog.ipaddress != ''">
+                and IpAddress REGEXP #{smtSyslog.ipaddress}
+            </if>
+            <if test="smtSyslog.operate != null and smtSyslog.operate != ''">
+                and Operate REGEXP #{smtSyslog.operate}
+            </if>
+            <if test="smtSyslog.browserversion != null and smtSyslog.browserversion != ''">
+                and BrowserVersion REGEXP #{smtSyslog.browserversion}
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--不等于查询指定行数据-->
+    <select id="queryNotEqualAllByLimit" resultMap="SmtSyslogMap">
+        select
+        Id, UserId, MenuId, OperateTime, IpAddress, Operate, BrowserVersion
+        from hiquality.smt_syslog
+        <where>
+            <if test="smtSyslog.id != null and smtSyslog.id != ''">
+                and Id != #{smtSyslog.id}
+            </if>
+            <if test="smtSyslog.userid != null and smtSyslog.userid != ''">
+                and UserId != #{smtSyslog.userid}
+            </if>
+            <if test="smtSyslog.menuid != null and smtSyslog.menuid != ''">
+                and MenuId != #{smtSyslog.menuid}
+            </if>
+            <if test="smtSyslog.operatetime != null">
+                and OperateTime != #{smtSyslog.operatetime}
+            </if>
+            <if test="smtSyslog.ipaddress != null and smtSyslog.ipaddress != ''">
+                and IpAddress != #{smtSyslog.ipaddress}
+            </if>
+            <if test="smtSyslog.operate != null and smtSyslog.operate != ''">
+                and Operate != #{smtSyslog.operate}
+            </if>
+            <if test="smtSyslog.browserversion != null and smtSyslog.browserversion != ''">
+                and BrowserVersion != #{smtSyslog.browserversion}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SmtSyslogMap">
+        select
+        Id, UserId, MenuId, OperateTime, IpAddress, Operate, BrowserVersion
+        from hiquality.smt_syslog
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="userid != null and userid != ''">
+                and UserId = #{userid}
+            </if>
+            <if test="menuid != null and menuid != ''">
+                and MenuId = #{menuid}
+            </if>
+            <if test="operatetime != null">
+                and OperateTime = #{operatetime}
+            </if>
+            <if test="ipaddress != null and ipaddress != ''">
+                and IpAddress = #{ipaddress}
+            </if>
+            <if test="operate != null and operate != ''">
+                and Operate = #{operate}
+            </if>
+            <if test="browserversion != null and browserversion != ''">
+                and BrowserVersion = #{browserversion}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="SmtSyslogMap">
+        select
+        Id, UserId, MenuId, OperateTime, IpAddress, Operate, BrowserVersion
+        from hiquality.smt_syslog
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="userid != null and userid != ''">
+                and UserId like #{userid}
+            </if>
+            <if test="menuid != null and menuid != ''">
+                and MenuId like #{menuid}
+            </if>
+            <if test="operatetime != null">
+                and OperateTime like #{operatetime}
+            </if>
+            <if test="ipaddress != null and ipaddress != ''">
+                and IpAddress like #{ipaddress}
+            </if>
+            <if test="operate != null and operate != ''">
+                and Operate like #{operate}
+            </if>
+            <if test="browserversion != null and browserversion != ''">
+                and BrowserVersion like #{browserversion}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="SmtSyslogMap">
+        select
+        Id, UserId, MenuId, OperateTime, IpAddress, Operate, BrowserVersion
+        from hiquality.smt_syslog
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="userid != null and userid != ''">
+                or UserId = #{userid}
+            </if>
+            <if test="menuid != null and menuid != ''">
+                or MenuId = #{menuid}
+            </if>
+            <if test="operatetime != null">
+                or OperateTime = #{operatetime}
+            </if>
+            <if test="ipaddress != null and ipaddress != ''">
+                or IpAddress = #{ipaddress}
+            </if>
+            <if test="operate != null and operate != ''">
+                or Operate = #{operate}
+            </if>
+            <if test="browserversion != null and browserversion != ''">
+                or BrowserVersion = #{browserversion}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_syslog(Id, UserId, MenuId, OperateTime, IpAddress, Operate, BrowserVersion)
+        values (#{id}, #{userid}, #{menuid}, #{operatetime}, #{ipaddress}, #{operate}, #{browserversion})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_syslog(Id, UserId, MenuId, OperateTime, IpAddress, Operate, BrowserVersion)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.userid}, #{entity.menuid}, #{entity.operatetime}, #{entity.ipaddress},
+            #{entity.operate}, #{entity.browserversion})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_syslog(Id, UserId, MenuId, OperateTime, IpAddress, Operate, BrowserVersion)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.userid}, #{entity.menuid}, #{entity.operatetime}, #{entity.ipaddress},
+            #{entity.operate}, #{entity.browserversion})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , UserId = values(UserId) , MenuId = values(MenuId) , OperateTime = values(OperateTime) ,
+        IpAddress = values(IpAddress) , Operate = values(Operate) , BrowserVersion = values(BrowserVersion)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.smt_syslog
+        <set>
+            UserId = #{userid},
+            MenuId = #{menuid},
+            OperateTime = #{operatetime},
+            IpAddress = #{ipaddress},
+            Operate = #{operate},
+            BrowserVersion = #{browserversion},
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.smt_syslog
+        where Id = #{id}
+    </delete>
+
+</mapper>

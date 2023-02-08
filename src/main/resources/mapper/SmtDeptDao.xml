@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiqgroup.hiq.dao.SmtDeptDao">
+
+    <resultMap type="com.hiqgroup.hiq.entity.SmtDept" id="SmtDeptMap">
+        <result property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="parentid" column="ParentId" jdbcType="VARCHAR"/>
+        <result property="deptname" column="DeptName" jdbcType="VARCHAR"/>
+        <result property="companyid" column="CompanyId" jdbcType="VARCHAR"/>
+        <result property="chargeman" column="ChargeMan" jdbcType="VARCHAR"/>
+        <result property="contactman" column="ContactMan" jdbcType="VARCHAR"/>
+        <result property="telno" column="TelNo" jdbcType="VARCHAR"/>
+        <result property="faxno" column="FaxNo" jdbcType="VARCHAR"/>
+        <result property="remark" column="Remark" jdbcType="VARCHAR"/>
+        <result property="edtbyuserid" column="EdtByUserId" jdbcType="VARCHAR"/>
+        <result property="edttime" column="EdtTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SmtDeptMap">
+        select Id,
+               ParentId,
+               DeptName,
+               CompanyId,
+               ChargeMan,
+               ContactMan,
+               TelNo,
+               FaxNo,
+               Remark,
+               EdtByUserId,
+               EdtTime
+        from hiquality.smt_dept
+        where Id = #{id}
+    </select>
+
+    <!--条件查询记录总数-->
+    <select id="getCount" resultType="int">
+        select count(*) from hiquality.smt_dept
+        <where>
+            <if test="smtDept.id != null and smtDept.id != ''">
+                and Id REGEXP #{smtDept.id}
+            </if>
+            <if test="smtDept.parentid != null and smtDept.parentid != ''">
+                and ParentId REGEXP #{smtDept.parentid}
+            </if>
+            <if test="smtDept.deptname != null and smtDept.deptname != ''">
+                and DeptName REGEXP #{smtDept.deptname}
+            </if>
+            <if test="smtDept.companyid != null and smtDept.companyid != ''">
+                and CompanyId REGEXP #{smtDept.companyid}
+            </if>
+            <if test="smtDept.chargeman != null and smtDept.chargeman != ''">
+                and ChargeMan REGEXP #{smtDept.chargeman}
+            </if>
+            <if test="smtDept.contactman != null and smtDept.contactman != ''">
+                and ContactMan REGEXP #{smtDept.contactman}
+            </if>
+            <if test="smtDept.telno != null and smtDept.telno != ''">
+                and TelNo REGEXP #{smtDept.telno}
+            </if>
+            <if test="smtDept.faxno != null and smtDept.faxno != ''">
+                and FaxNo REGEXP #{smtDept.faxno}
+            </if>
+            <if test="smtDept.remark != null and smtDept.remark != ''">
+                and Remark REGEXP #{smtDept.remark}
+            </if>
+            <if test="smtDept.edtbyuserid != null and smtDept.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{smtDept.edtbyuserid}
+            </if>
+            <if test="smtDept.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{smtDept.edttime},'%y-%m-%d')
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--不等于条件查询记录总数-->
+    <select id="getCountByNotEqual" resultType="int">
+        select count(*) from hiquality.smt_dept
+        <where>
+            <if test="id != null and id != ''">
+                and Id != #{id}
+            </if>
+            <if test="parentid != null and parentid != ''">
+                and ParentId != #{parentid}
+            </if>
+            <if test="deptname != null and deptname != ''">
+                and DeptName != #{deptname}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId != #{companyid}
+            </if>
+            <if test="chargeman != null and chargeman != ''">
+                and ChargeMan != #{chargeman}
+            </if>
+            <if test="contactman != null and contactman != ''">
+                and ContactMan != #{contactman}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo != #{telno}
+            </if>
+            <if test="faxno != null and faxno != ''">
+                and FaxNo != #{faxno}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark != #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId != #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime != #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--模糊查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SmtDeptMap">
+        select
+        Id, ParentId, DeptName, CompanyId, ChargeMan, ContactMan, TelNo, FaxNo, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_dept
+        <where>
+            <if test="smtDept.id != null and smtDept.id != ''">
+                and Id REGEXP #{smtDept.id}
+            </if>
+            <if test="smtDept.parentid != null and smtDept.parentid != ''">
+                and ParentId REGEXP #{smtDept.parentid}
+            </if>
+            <if test="smtDept.deptname != null and smtDept.deptname != ''">
+                and DeptName REGEXP #{smtDept.deptname}
+            </if>
+            <if test="smtDept.companyid != null and smtDept.companyid != ''">
+                and CompanyId REGEXP #{smtDept.companyid}
+            </if>
+            <if test="smtDept.chargeman != null and smtDept.chargeman != ''">
+                and ChargeMan REGEXP #{smtDept.chargeman}
+            </if>
+            <if test="smtDept.contactman != null and smtDept.contactman != ''">
+                and ContactMan REGEXP #{smtDept.contactman}
+            </if>
+            <if test="smtDept.telno != null and smtDept.telno != ''">
+                and TelNo REGEXP #{smtDept.telno}
+            </if>
+            <if test="smtDept.faxno != null and smtDept.faxno != ''">
+                and FaxNo REGEXP #{smtDept.faxno}
+            </if>
+            <if test="smtDept.remark != null and smtDept.remark != ''">
+                and Remark REGEXP #{smtDept.remark}
+            </if>
+            <if test="smtDept.edtbyuserid != null and smtDept.edtbyuserid != ''">
+                and EdtByUserId REGEXP #{smtDept.edtbyuserid}
+            </if>
+            <if test="smtDept.edttime != null">
+                and EdtTime REGEXP DATE_FORMAT(#{smtDept.edttime},'%y-%m-%d')
+            </if>
+            <if test="ins != null and ins.size != 0">
+                <foreach collection="ins" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') in
+                        <foreach collection="value" item="valueitem" open="(" close=")" separator=",">
+                            #{valueitem}
+                        </foreach>
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="betweens != null and betweens.size != 0">
+                <foreach collection="betweens" item="item" index="index">
+                    <foreach collection="item.entrySet()" item="value" index="key">
+                        and ifnull(${key},'') between '${value.get(0)}' and
+                        '${value.get(1)}'
+                    </foreach>
+                </foreach>
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--不等于查询指定行数据-->
+    <select id="queryNotEqualAllByLimit" resultMap="SmtDeptMap">
+        select
+        Id, ParentId, DeptName, CompanyId, ChargeMan, ContactMan, TelNo, FaxNo, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_dept
+        <where>
+            <if test="smtDept.id != null and smtDept.id != ''">
+                and Id != #{smtDept.id}
+            </if>
+            <if test="smtDept.parentid != null and smtDept.parentid != ''">
+                and ParentId != #{smtDept.parentid}
+            </if>
+            <if test="smtDept.deptname != null and smtDept.deptname != ''">
+                and DeptName != #{smtDept.deptname}
+            </if>
+            <if test="smtDept.companyid != null and smtDept.companyid != ''">
+                and CompanyId != #{smtDept.companyid}
+            </if>
+            <if test="smtDept.chargeman != null and smtDept.chargeman != ''">
+                and ChargeMan != #{smtDept.chargeman}
+            </if>
+            <if test="smtDept.contactman != null and smtDept.contactman != ''">
+                and ContactMan != #{smtDept.contactman}
+            </if>
+            <if test="smtDept.telno != null and smtDept.telno != ''">
+                and TelNo != #{smtDept.telno}
+            </if>
+            <if test="smtDept.faxno != null and smtDept.faxno != ''">
+                and FaxNo != #{smtDept.faxno}
+            </if>
+            <if test="smtDept.remark != null and smtDept.remark != ''">
+                and Remark != #{smtDept.remark}
+            </if>
+            <if test="smtDept.edtbyuserid != null and smtDept.edtbyuserid != ''">
+                and EdtByUserId != #{smtDept.edtbyuserid}
+            </if>
+            <if test="smtDept.edttime != null">
+                and EdtTime != #{smtDept.edttime}
+            </if>
+        </where>
+        order by ${orderby} ${asc}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SmtDeptMap">
+        select
+        Id, ParentId, DeptName, CompanyId, ChargeMan, ContactMan, TelNo, FaxNo, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_dept
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="parentid != null and parentid != ''">
+                and ParentId = #{parentid}
+            </if>
+            <if test="deptname != null and deptname != ''">
+                and DeptName = #{deptname}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId = #{companyid}
+            </if>
+            <if test="chargeman != null and chargeman != ''">
+                and ChargeMan = #{chargeman}
+            </if>
+            <if test="contactman != null and contactman != ''">
+                and ContactMan = #{contactman}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo = #{telno}
+            </if>
+            <if test="faxno != null and faxno != ''">
+                and FaxNo = #{faxno}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark = #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime = #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllLike" resultMap="SmtDeptMap">
+        select
+        Id, ParentId, DeptName, CompanyId, ChargeMan, ContactMan, TelNo, FaxNo, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_dept
+        <where>
+            <if test="id != null and id != ''">
+                and Id like #{id}
+            </if>
+            <if test="parentid != null and parentid != ''">
+                and ParentId like #{parentid}
+            </if>
+            <if test="deptname != null and deptname != ''">
+                and DeptName like #{deptname}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                and CompanyId like #{companyid}
+            </if>
+            <if test="chargeman != null and chargeman != ''">
+                and ChargeMan like #{chargeman}
+            </if>
+            <if test="contactman != null and contactman != ''">
+                and ContactMan like #{contactman}
+            </if>
+            <if test="telno != null and telno != ''">
+                and TelNo like #{telno}
+            </if>
+            <if test="faxno != null and faxno != ''">
+                and FaxNo like #{faxno}
+            </if>
+            <if test="remark != null and remark != ''">
+                and Remark like #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                and EdtByUserId like #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                and EdtTime like #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllWhereOr" resultMap="SmtDeptMap">
+        select
+        Id, ParentId, DeptName, CompanyId, ChargeMan, ContactMan, TelNo, FaxNo, Remark, EdtByUserId, EdtTime
+        from hiquality.smt_dept
+        <where>
+            <if test="id != null and id != ''">
+                or Id = #{id}
+            </if>
+            <if test="parentid != null and parentid != ''">
+                or ParentId = #{parentid}
+            </if>
+            <if test="deptname != null and deptname != ''">
+                or DeptName = #{deptname}
+            </if>
+            <if test="companyid != null and companyid != ''">
+                or CompanyId = #{companyid}
+            </if>
+            <if test="chargeman != null and chargeman != ''">
+                or ChargeMan = #{chargeman}
+            </if>
+            <if test="contactman != null and contactman != ''">
+                or ContactMan = #{contactman}
+            </if>
+            <if test="telno != null and telno != ''">
+                or TelNo = #{telno}
+            </if>
+            <if test="faxno != null and faxno != ''">
+                or FaxNo = #{faxno}
+            </if>
+            <if test="remark != null and remark != ''">
+                or Remark = #{remark}
+            </if>
+            <if test="edtbyuserid != null and edtbyuserid != ''">
+                or EdtByUserId = #{edtbyuserid}
+            </if>
+            <if test="edttime != null">
+                or EdtTime = #{edttime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_dept(Id, ParentId, DeptName, CompanyId, ChargeMan, ContactMan, TelNo, FaxNo, Remark,
+                                       EdtByUserId, EdtTime)
+        values (#{id}, #{parentid}, #{deptname}, #{companyid}, #{chargeman}, #{contactman}, #{telno}, #{faxno},
+                #{remark}, #{edtbyuserid}, #{edttime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_dept(Id, ParentId, DeptName, CompanyId, ChargeMan, ContactMan, TelNo, FaxNo, Remark,
+        EdtByUserId, EdtTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.parentid}, #{entity.deptname}, #{entity.companyid}, #{entity.chargeman},
+            #{entity.contactman}, #{entity.telno}, #{entity.faxno}, #{entity.remark}, #{entity.edtbyuserid},
+            #{entity.edttime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into hiquality.smt_dept(Id, ParentId, DeptName, CompanyId, ChargeMan, ContactMan, TelNo, FaxNo, Remark,
+        EdtByUserId, EdtTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.parentid}, #{entity.deptname}, #{entity.companyid}, #{entity.chargeman},
+            #{entity.contactman}, #{entity.telno}, #{entity.faxno}, #{entity.remark}, #{entity.edtbyuserid},
+            #{entity.edttime})
+        </foreach>
+        on duplicate key update
+        Id = values(Id) , ParentId = values(ParentId) , DeptName = values(DeptName) , CompanyId = values(CompanyId) ,
+        ChargeMan = values(ChargeMan) , ContactMan = values(ContactMan) , TelNo = values(TelNo) , FaxNo = values(FaxNo)
+        , Remark = values(Remark) , EdtByUserId = values(EdtByUserId) , EdtTime = values(EdtTime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hiquality.smt_dept
+        <set>
+            ParentId = #{parentid},
+            DeptName = #{deptname},
+            CompanyId = #{companyid},
+            ChargeMan = #{chargeman},
+            ContactMan = #{contactman},
+            TelNo = #{telno},
+            FaxNo = #{faxno},
+            Remark = #{remark},
+            EdtByUserId = #{edtbyuserid},
+            EdtTime = #{edttime},
+        </set>
+        where Id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from hiquality.smt_dept
+        where Id = #{id}
+    </delete>
+
+</mapper>
