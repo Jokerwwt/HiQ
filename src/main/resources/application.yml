@@ -1,18 +1,17 @@
-#??
+﻿#??
 server:
-  address: 127.0.0.1
   port: 8080
-
+# 4450
 #?????
 spring:
   datasource:
     name: hiquality
-    url: jdbc:mysql://localhost:3306/hiquality?characterEncoding=UTF-8&useUnicode=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://49.235.91.97:3306/hiquality?characterEncoding=UTF-8&useUnicode=true&serverTimezone=Asia/Shanghai
     username: root
-    password: 123456
+    password: wwt20020323
     #    url: jdbc:mysql://36.133.143.71:3308/hiquality?characterEncoding=UTF-8&useUnicode=true&serverTimezone=Asia/Shanghai
     #    username: hiqgroup_root
-    #    password: computer@hiqgroup123
+    #    password: computer@hiqgroup1233
     driverClassName: com.mysql.jdbc.Driver
   #?????
   thymeleaf:
@@ -34,10 +33,10 @@ spring:
       max-request-size: 200MB
 
 filepath:
-  zyUploadPath: D:/IntelliJ/HiQuality/attach/upload
-  kindEditorPath: D:/IntelliJ/HiQuality/attach/kindEditor
-  templatePath: D:/IntelliJ/HiQuality/attach/template
-  lucenePath: D:/IntelliJ/HiQuality/attach/lucene
+  zyUploadPath: /www/wwwroot/Hiq/attach/upload
+  kindEditorPath: /www/wwwroot/Hiq/attach/kindEditor
+  templatePath: /www/wwwroot/Hiq/attach/template
+  lucenePath: /www/wwwroot/Hiq/attach/lucene
 
 ###??.xml????
 #mybatis.config-locations=classpath:mybatis/mybatis-config.xml
